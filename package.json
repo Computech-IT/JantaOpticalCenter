@@ -1,0 +1,36 @@
+{
+  "name": "jantaopticalcenter",
+  "version": "1.0.0",
+  "description": "Janta Optical Center",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "download-images": "node scripts/download_images.js",
+    "init-db": "node scripts/init_db.js",
+    "start": "NODE_ENV=production node server.js",
+    "generate-sitemap-products": "node scripts/generate_sitemap_products.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Computech-IT/JantaOpticalCenter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Computech-IT/JantaOpticalCenter/issues"
+  },
+  "homepage": "https://github.com/Computech-IT/JantaOpticalCenter#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.1.5",
+    "nodemailer": "^7.0.13"
+  },
+  "optionalDependencies": {
+    "sqlite3": "^5.1.7"
+  }
+}
