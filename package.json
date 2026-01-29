@@ -31,6 +31,6 @@
     "nodemailer": "^7.0.13"
   },
   "optionalDependencies": {
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.0.2"
   }
 }
