@@ -69,10 +69,7 @@
       <a href="#about">About</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
-    <button class="cart-btn" id="cart-btn">
-      <span class="cart-icon">🛒</span>
-      <span class="cart-count" id="cart-count">0</span>
-    </button>
+    <!-- floating cart used instead of header cart -->
   </div>
 </header>
 
@@ -122,31 +119,38 @@
   <div class="footer-inner">
     <div class="footer-column footer-brand">
       <h4>Janta Optical</h4>
-      <p>Handcrafted eyewear with a modern touch. Premium materials, precise optics, and nationwide delivery.</p>
-      <div class="newsletter">
-        <input placeholder="Enter your email" aria-label="newsletter-email">
-        <button class="btn btn-primary">Subscribe</button>
+      <p>Handcrafted eyewear with a modern touch — premium materials, precision optics, and nationwide delivery. Shop our curated collection.</p>
+      <div class="socials">
+        <a href="#">Instagram</a>
+        <a href="#">Facebook</a>
+        <a href="#">WhatsApp</a>
       </div>
     </div>
 
     <div class="footer-column footer-links">
-      <h5>Shop</h5>
+      <h5>Explore</h5>
       <ul>
         <li><a href="#collection">All Products</a></li>
         <li><a href="#collection">Sunglasses</a></li>
         <li><a href="#collection">Optical Frames</a></li>
         <li><a href="#about">About</a></li>
       </ul>
+      <h5 style="margin-top:18px">Support</h5>
+      <ul>
+        <li><a href="#">Shipping</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
     </div>
 
-    <div class="footer-column footer-contact">
-      <h5>Contact</h5>
-      <p>📍 Pakyong, Sikkim</p>
-      <p>📞 +91 8768837581</p>
-      <p>✉️ support@jantaoptical.com</p>
-      <div class="socials">
-        <a href="#">Instagram</a> · <a href="#">Facebook</a> · <a href="#">WhatsApp</a>
+    <div class="footer-column footer-newsletter">
+      <h5>Stay Updated</h5>
+      <p style="color:var(--text-light)">Join our newsletter for new collections and offers.</p>
+      <div class="newsletter">
+        <input placeholder="Email address" aria-label="newsletter-email">
+        <button class="btn">Subscribe</button>
       </div>
+      <div style="margin-top:18px; opacity:0.9; font-size:13px">Secure payments: Visa · MasterCard · UPI</div>
     </div>
   </div>
 

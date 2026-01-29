@@ -1,0 +1,21 @@
+[
+  { "id": 1, "name": "Luxe Polarized", "price": 3499, "desc": "Polarized lenses, anti-glare, premium finish.", "img": "images/products/1.jpg" },
+  { "id": 2, "name": "Aviator Classic", "price": 2999, "desc": "Signature aviator frame in brushed metal.", "img": "images/products/2.jpg" },
+  { "id": 3, "name": "Modern Square", "price": 2699, "desc": "Contemporary square frames with lightweight feel.", "img": "images/products/3.jpg" },
+  { "id": 4, "name": "BlueShield Lens", "price": 1999, "desc": "Blue-light filter lenses for daily screen use.", "img": "images/products/4.jpg" },
+  { "id": 5, "name": "Classic Round", "price": 2199, "desc": "Timeless round silhouette for everyday wear.", "img": "images/products/5.jpg" },
+  { "id": 6, "name": "Signature Aviator", "price": 3799, "desc": "Premium aviator with leather case and polishing cloth.", "img": "images/products/6.jpg" },
+  { "id": 7, "name": "Minimal Frame", "price": 1599, "desc": "Ultra-light minimalist frame for comfort.", "img": "images/products/7.jpg" },
+  { "id": 8, "name": "Sport Pro", "price": 2899, "desc": "Durable sport frame with anti-slip nose pads.", "img": "images/products/8.jpg" },
+  { "id": 9, "name": "Elegance Collection", "price": 4299, "desc": "Hand-finished frame with premium detailing.", "img": "images/products/9.jpg" },
+
+  { "id": 10, "name": "Luxe Polarized - Black", "price": 3599, "desc": "Alternate colorway for Luxe Polarized.", "img": "images/products/1.jpg" },
+  { "id": 11, "name": "Aviator Classic - Gold", "price": 3199, "desc": "Gold-plated aviator for a luxurious look.", "img": "images/products/2.jpg" },
+  { "id": 12, "name": "Modern Square - Matte", "price": 2799, "desc": "Matte finish variant of Modern Square.", "img": "images/products/3.jpg" },
+  { "id": 13, "name": "BlueShield Lens - Plus", "price": 2299, "desc": "Blue-light plus coating with scratch resistance.", "img": "images/products/4.jpg" },
+  { "id": 14, "name": "Classic Round - Limited", "price": 2499, "desc": "Limited edition colorway.", "img": "images/products/5.jpg" },
+  { "id": 15, "name": "Signature Aviator - Sport", "price": 3899, "desc": "Sport edition with reinforced frame.", "img": "images/products/6.jpg" },
+  { "id": 16, "name": "Minimal Frame - Slim", "price": 1699, "desc": "Slim-profile minimalist frame.", "img": "images/products/7.jpg" },
+  { "id": 17, "name": "Sport Pro - Jr", "price": 2599, "desc": "Youth fit sport model.", "img": "images/products/8.jpg" },
+  { "id": 18, "name": "Elegance Collection - Noir", "price": 4499, "desc": "Noir edition with refined accents.", "img": "images/products/9.jpg" }
+]
