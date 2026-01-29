@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Replace example.com with your actual site URL -->
+  <!-- Sitemap generated for production domain: www.jantaoptical.com -->
   <url>
-    <loc>https://example.com/</loc>
+    <loc>https://www.jantaoptical.com/</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.com/#collection</loc>
+    <loc>https://www.jantaoptical.com/#collection</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.com/#about</loc>
+    <loc>https://www.jantaoptical.com/#about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

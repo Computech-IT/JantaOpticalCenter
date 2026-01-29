@@ -3,6 +3,6 @@
 User-agent: *
 Allow: /
 
-# Sitemap location (replace example.com with your domain)
-Sitemap: https://example.com/sitemap.xml
-Sitemap: https://example.com/sitemap-products.xml
+# Sitemap location (updated to production domain)
+Sitemap: https://www.jantaoptical.com/sitemap.xml
+Sitemap: https://www.jantaoptical.com/sitemap-products.xml

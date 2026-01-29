@@ -8,7 +8,8 @@
     "download-images": "node scripts/download_images.js",
     "init-db": "node scripts/init_db.js",
     "start": "NODE_ENV=production node server.js",
-    "generate-sitemap-products": "node scripts/generate_sitemap_products.js"
+    "generate-sitemap-products": "node scripts/generate_sitemap_products.js",
+    "build:css": "tailwindcss -i ./src/styles/tailwind.css -o ./public/css/tailwind.css --minify"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,11 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.5",
     "nodemailer": "^7.0.13"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.19"
   },
   "optionalDependencies": {
     "sqlite3": "^5.0.2"

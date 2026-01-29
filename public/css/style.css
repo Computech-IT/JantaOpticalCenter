@@ -760,6 +760,7 @@ body {
   z-index: 110;
 }
 
+.product-modal.active,
 .product-modal.open {
   display: flex;
 }
@@ -784,6 +785,38 @@ body {
   height: 420px;
   object-fit: cover;
   border-radius: 12px;
+}
+
+/* Zoom animation for modal image */
+.modal-image img {
+  transform: scale(0.78);
+  opacity: 0.0;
+  transition: transform 360ms cubic-bezier(.2,.9,.3,1), opacity 220ms ease;
+  cursor: zoom-in;
+}
+.product-modal.active .modal-image img,
+.product-modal.open .modal-image img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Click-to-zoom inside modal */
+.modal-image img.zoomed {
+  transform: scale(1.6);
+  cursor: zoom-out;
+  transition: transform 280ms cubic-bezier(.2,.9,.3,1);
+}
+.modal-image { overflow: hidden; }
+
+/* Allow image clicks on touch devices: overlay shouldn't block pointer events by default */
+.tw-product-card .tw-overlay {
+  pointer-events: none;
+  opacity: 0;
+}
+.tw-product-card:hover .tw-overlay,
+.tw-product-card:focus-within .tw-overlay {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .modal-details h3 {
@@ -999,4 +1032,30 @@ body {
 
   .footer-inner { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; gap: 8px; align-items: flex-start; }
+}
+
+
+/* =========================
+   PRODUCT MODAL
+========================= */
+.product-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.product-modal.active {
+  display: flex;
+}
+
+.modal-card {
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
 }

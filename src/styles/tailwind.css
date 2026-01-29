@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* small helper to keep some existing project variables usable */
+
+:root {
+  --accent: #d4af37;
+  --accent-color: #1e90ff;
+}
+
+/* Component layer: reusable, high-priority styles migrated from legacy CSS */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-yellow-400 shadow-md;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold border border-gray-200 text-gray-700 bg-transparent;
+  }
+
+  .product-card {
+    @apply bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100;
+  }
+
+  .product-card img {
+    @apply w-full h-64 object-cover transition-transform duration-300 ease-[cubic-bezier(.2,.9,.3,1)] cursor-pointer;
+  }
+
+  .modal-card {
+    @apply w-full max-w-4xl bg-white rounded-2xl p-6 shadow-2xl mx-auto;
+  }
+
+  .modal-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6 items-center;
+  }
+
+  .cart-drawer {
+    /* hidden by default (off-canvas to the right) */
+    right: -100%;
+    @apply fixed top-0 h-full w-96 max-w-[92vw] bg-white shadow-xl z-50 flex flex-col transition-[right] duration-300 ease-in-out;
+  }
+
+  .cart-drawer.open {
+    right: 0;
+  }
+}
+
+@layer utilities {
+  .text-accent-color { color: var(--accent-color); }
+}

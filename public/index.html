@@ -11,6 +11,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS (built) -->
+    <link rel="stylesheet" href="/css/tailwind.css">
   <!-- Favicon and icons -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="shortcut icon" href="/favicon.svg" />
@@ -32,8 +34,8 @@
   <meta name="twitter:description" content="Premium, handcrafted eyewear blending timeless design with modern optics. Shop now." />
   <meta name="twitter:image" content="/images/products/1.jpg" />
 
-  <!-- Canonical: replace with your production URL -->
-  <link rel="canonical" href="https://example.com/" />
+  <!-- Canonical: production URL -->
+  <link rel="canonical" href="https://www.jantaoptical.com/" />
 
   <!-- JSON-LD structured data -->
   <script type="application/ld+json">
@@ -42,8 +44,8 @@
     "@type": "Store",
     "name": "Janta Optical Centre",
     "description": "Premium, handcrafted eyewear blending timeless design with modern optics.",
-    "url": "https://example.com/",
-    "logo": "https://example.com/favicon.svg",
+    "url": "https://www.jantaoptical.com/",
+    "logo": "https://www.jantaoptical.com/favicon.svg",
     "sameAs": ["https://instagram.com/", "https://facebook.com/"],
     "address": {
       "@type": "PostalAddress",
@@ -62,7 +64,7 @@
   <div class="navbar-content">
     <div class="logo">
       <span class="logo-icon">✨</span>
-      <h1>Janta Optical</h1>
+      <h1>Janta Optical Center</h1>
     </div>
     <nav class="nav-links">
       <a href="#collection">Collection</a>
@@ -111,48 +113,42 @@
     <h2>Curated Collection</h2>
     <p>Handpicked eyewear for your lifestyle</p>
   </div>
-  <main class="product-grid" id="productGrid"></main>
+  
+    <main id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></main>
 </section>
 
 <!-- FOOTER -->
 <footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-column footer-brand">
-      <h4>Janta Optical</h4>
-      <p>Handcrafted eyewear with a modern touch — premium materials, precision optics, and nationwide delivery. Shop our curated collection.</p>
-      <div class="socials">
-        <a href="#">Instagram</a>
-        <a href="#">Facebook</a>
-        <a href="#">WhatsApp</a>
+  
+    <div class="footer-inner max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div>
+        <h4 class="text-xl font-semibold">Janta Optical</h4>
+        <p class="text-gray-400 mt-3">Handcrafted eyewear with a modern touch — premium materials, precision optics, and nationwide delivery.</p>
+        <div class="flex gap-3 mt-4">
+          <a class="text-gray-300 hover:text-blue-400" href="#">Instagram</a>
+          <a class="text-gray-300 hover:text-blue-400" href="#">Facebook</a>
+          <a class="text-gray-300 hover:text-blue-400" href="#">WhatsApp</a>
+        </div>
+      </div>
+      <div>
+        <h5 class="font-semibold">Explore</h5>
+        <ul class="mt-3 text-gray-300 space-y-2">
+          <li><a href="#collection" class="hover:text-white">All Products</a></li>
+          <li><a href="#collection" class="hover:text-white">Sunglasses</a></li>
+          <li><a href="#collection" class="hover:text-white">Optical Frames</a></li>
+          <li><a href="#about" class="hover:text-white">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="font-semibold">Stay Updated</h5>
+        <p class="text-gray-400 mt-2">Join our newsletter for new collections and offers.</p>
+        <div class="mt-4 flex gap-2">
+          <input placeholder="Email address" aria-label="newsletter-email" class="flex-1 px-3 py-2 rounded bg-gray-800 text-gray-100" />
+          <button class="px-4 py-2 rounded bg-gradient-to-r from-blue-500 to-yellow-400 text-white font-semibold">Subscribe</button>
+        </div>
+        <div class="mt-4 text-sm text-gray-500">Secure payments: Visa · MasterCard · UPI</div>
       </div>
     </div>
-
-    <div class="footer-column footer-links">
-      <h5>Explore</h5>
-      <ul>
-        <li><a href="#collection">All Products</a></li>
-        <li><a href="#collection">Sunglasses</a></li>
-        <li><a href="#collection">Optical Frames</a></li>
-        <li><a href="#about">About</a></li>
-      </ul>
-      <h5 style="margin-top:18px">Support</h5>
-      <ul>
-        <li><a href="#">Shipping</a></li>
-        <li><a href="#">Returns</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-column footer-newsletter">
-      <h5>Stay Updated</h5>
-      <p style="color:var(--text-light)">Join our newsletter for new collections and offers.</p>
-      <div class="newsletter">
-        <input placeholder="Email address" aria-label="newsletter-email">
-        <button class="btn">Subscribe</button>
-      </div>
-      <div style="margin-top:18px; opacity:0.9; font-size:13px">Secure payments: Visa · MasterCard · UPI</div>
-    </div>
-  </div>
 
   <div class="footer-bottom">
     <div>© <span id="year"></span> Janta Optical Centre — All rights reserved.</div>
@@ -162,37 +158,37 @@
 
 <!-- CART DRAWER -->
 <div class="cart-drawer" id="cartDrawer">
-  <div class="cart-header">
-    <h3>Your Selection</h3>
-    <button class="cart-close" id="cart-close">&times;</button>
+  <div class="bg-gradient-to-r from-blue-600 to-blue-500 text-white p-4 flex items-center justify-between">
+    <h3 class="text-xl font-bold">Shopping Cart</h3>
+    <button class="cart-close text-white text-2xl hover:opacity-75" id="cart-close" aria-label="Close cart">&times;</button>
   </div>
   
-  <div class="cart-content">
-    <div id="cartItems" class="cart-items-list"></div>
-    <div class="cart-empty" id="cartEmpty">
-      <p>Your cart is empty</p>
-      <small>Add items to get started</small>
+  <div class="flex-1 overflow-y-auto">
+    <div id="cartItems" class="cart-items-list divide-y"></div>
+    <div class="cart-empty flex flex-col items-center justify-center h-full" id="cartEmpty">
+      <p class="text-lg font-semibold text-gray-700">Cart is Empty</p>
+      <small class="text-gray-500 mt-2">Add items from the collection</small>
     </div>
   </div>
 
-  <div class="cart-footer">
-    <div class="cart-summary" id="cartSummary" style="display: none;">
-      <div class="summary-row">
-        <span>Total Items:</span>
-        <span id="totalItems">0</span>
+  <div class="border-t border-gray-200 bg-gray-50 p-4 space-y-3">
+    <div class="cart-summary" id="cartSummary" style="display: none;" class="bg-white rounded-lg p-3 border border-gray-100">
+      <div class="flex justify-between py-2">
+        <span class="text-gray-700">Items:</span>
+        <span class="font-semibold text-gray-900" id="totalItems">0</span>
       </div>
-      <div class="summary-row total">
-        <span>Total Price:</span>
-        <span id="totalPrice">₹0</span>
+      <div class="flex justify-between py-2 border-t border-gray-200 pt-2">
+        <span class="text-lg font-bold text-gray-900">Total:</span>
+        <span class="text-lg font-bold text-blue-600" id="totalPrice">₹0</span>
       </div>
     </div>
-    <button id="whatsappOrder" class="btn-whatsapp">
-      <span class="btn-icon">💬</span> Order via WhatsApp
+    <button id="checkoutBtn" class="w-full btn-primary text-center py-3">Checkout</button>
+    <button id="whatsappOrder" class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-md transition">
+      <span>💬</span> Order via WhatsApp
     </button>
-    <button id="emailOrder" class="btn-email">
-      <span class="btn-icon">✉️</span> Order via Email
+    <button id="emailOrder" class="w-full bg-gradient-to-r from-indigo-500 to-indigo-600 text-white py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-md transition">
+      <span>✉️</span> Order via Email
     </button>
-    <button id="checkoutBtn" class="btn-checkout btn-primary">Checkout</button>
   </div>
 </div>
 
@@ -200,20 +196,28 @@
 <div class="backdrop" id="backdrop"></div>
 
 <!-- PRODUCT QUICK VIEW MODAL -->
-<div class="product-modal" id="productModal" aria-hidden="true">
-  <div class="modal-card">
-    <button class="modal-close" id="modalClose">×</button>
-    <div class="modal-grid">
-      <div class="modal-image">
-        <img id="modalImg" src="" alt="">
+<div class="product-modal" id="productModal">
+  <div class="modal-card rounded-2xl bg-white shadow-2xl max-w-5xl mx-auto">
+    <button class="absolute top-4 right-4 text-3xl text-gray-600 hover:text-gray-900" id="modalClose" aria-label="Close modal">×</button>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+      <div class="flex items-center justify-center">
+        <div class="modal-image-container relative w-full h-96 bg-gray-100 rounded-xl overflow-hidden cursor-pointer group">
+          <img id="modalImg" src="" alt="Product image" class="w-full h-full object-cover transition-transform duration-300" />
+          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition flex items-center justify-center">
+            <span class="text-white text-sm font-semibold opacity-0 group-hover:opacity-100 transition">Click to Zoom</span>
+          </div>
+        </div>
       </div>
-      <div class="modal-details">
-        <h3 id="modalTitle"></h3>
-        <p id="modalDesc"></p>
-        <div class="modal-price" id="modalPrice"></div>
-        <div class="modal-actions">
-          <button id="modalAdd" class="btn btn-primary">Add to Cart</button>
-          <button id="modalShop" class="btn btn-outline">View Collection</button>
+      <div class="flex flex-col justify-center">
+        <h3 id="modalTitle" class="text-4xl font-bold text-gray-900 mb-3"></h3>
+        <p id="modalDesc" class="text-gray-600 text-lg mb-4 leading-relaxed"></p>
+        <div class="mb-6">
+          <span class="text-sm text-gray-500 uppercase tracking-wide">Price</span>
+          <div id="modalPrice" class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-yellow-500 mt-1"></div>
+        </div>
+        <div class="space-y-3">
+          <button id="modalAdd" class="w-full btn-primary py-4 text-lg font-bold rounded-lg">Add to Cart</button>
+          <button id="modalShop" class="w-full btn-outline py-3 text-lg font-semibold rounded-lg border-2">View Collection</button>
         </div>
       </div>
     </div>
@@ -221,27 +225,111 @@
 </div>
 
 <!-- CHECKOUT MODAL -->
-<div class="checkout-modal" id="checkoutModal" aria-hidden="true">
+<div class="checkout-modal" id="checkoutModal">
   <div class="checkout-card">
-    <button class="modal-close" id="checkoutClose">×</button>
-    <h3>Checkout</h3>
-    <form id="checkoutForm">
-      <label>Name</label>
-      <input type="text" id="customerName" required />
-      <label>Phone</label>
-      <input type="tel" id="customerPhone" required />
-      <label>Address</label>
-      <textarea id="customerAddress" rows="3" required></textarea>
-      <label>Notes (optional)</label>
-      <textarea id="customerNotes" rows="2"></textarea>
-      <div class="checkout-actions">
-        <button type="submit" id="checkoutSubmit" class="btn btn-primary">Place Order</button>
-        <button type="button" id="checkoutCancel" class="btn btn-outline">Cancel</button>
+    <button class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl" id="checkoutClose" aria-label="Close checkout">×</button>
+    
+    <!-- Steps indicator -->
+    <div class="mb-8">
+      <h2 class="text-3xl font-bold text-gray-900 mb-2">Checkout</h2>
+      <div class="flex gap-4 mt-4">
+        <div class="flex items-center gap-2">
+          <div class="step-indicator active w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">1</div>
+          <span class="text-sm font-semibold text-gray-900">Details</span>
+        </div>
+        <div class="flex-1 h-1 bg-gray-200 rounded my-4"></div>
+        <div class="flex items-center gap-2">
+          <div class="step-indicator w-10 h-10 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-sm">2</div>
+          <span class="text-sm font-semibold text-gray-600">Summary</span>
+        </div>
       </div>
-    </form>
-    <div id="checkoutConfirm" style="display:none;">
-      <h4>Order Placed</h4>
-      <p>We've prepared your order. You can review it in your email or WhatsApp.</p>
+    </div>
+
+    <!-- Step 1: Customer Details -->
+    <div id="checkoutStep1" class="checkout-step">
+      <form id="checkoutForm" class="space-y-4">
+        <div>
+          <label class="block text-sm font-semibold text-gray-900 mb-2">Full Name *</label>
+          <input type="text" id="customerName" placeholder="John Doe" class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition" required />
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-gray-900 mb-2">Phone *</label>
+            <input type="tel" id="customerPhone" placeholder="+91 98765 43210" class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition" required />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-900 mb-2">Email (optional)</label>
+            <input type="email" id="customerEmail" placeholder="you@example.com" class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-900 mb-2">Delivery Address *</label>
+          <textarea id="customerAddress" placeholder="House No., Street, City, State, Pincode" rows="3" class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition" required></textarea>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-900 mb-2">Special Instructions</label>
+          <textarea id="customerNotes" placeholder="Any special instructions for delivery..." rows="2" class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition"></textarea>
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button type="button" id="checkoutCancel" class="flex-1 px-6 py-3 rounded-lg border-2 border-gray-300 text-gray-900 font-semibold hover:bg-gray-50 transition">Cancel</button>
+          <button type="button" id="checkoutNext" class="flex-1 px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold hover:shadow-lg transition">Review Order</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Step 2: Order Summary -->
+    <div id="checkoutStep2" class="checkout-step hidden">
+      <div class="space-y-4">
+        <h3 class="text-xl font-bold text-gray-900">Order Summary</h3>
+        
+        <div id="orderSummaryItems" class="bg-gray-50 rounded-lg p-4 space-y-3 max-h-64 overflow-y-auto"></div>
+
+        <div class="border-t-2 border-gray-200 pt-4">
+          <div class="flex justify-between mb-4">
+            <span class="text-gray-700">Subtotal:</span>
+            <span class="font-semibold text-gray-900" id="orderSubtotal">₹0</span>
+          </div>
+          <div class="flex justify-between mb-4">
+            <span class="text-gray-700">Delivery:</span>
+            <span class="font-semibold text-green-600">FREE</span>
+          </div>
+          <div class="flex justify-between text-lg font-bold text-gray-900">
+            <span>Total Amount:</span>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-yellow-500" id="orderTotal">₹0</span>
+          </div>
+        </div>
+
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
+          <p class="text-sm text-gray-700">
+            <span class="font-semibold">Delivery To:</span><br>
+            <span id="deliveryAddr" class="text-gray-900 mt-1"></span>
+          </p>
+        </div>
+
+        <div class="flex gap-3 mt-6">
+          <button id="checkoutBack" class="flex-1 px-6 py-3 rounded-lg border-2 border-gray-300 text-gray-900 font-semibold hover:bg-gray-50 transition">Back</button>
+          <button id="checkoutConfirm" class="flex-1 px-6 py-3 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold hover:shadow-lg transition">Place Order</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Success -->
+    <div id="checkoutStep3" class="checkout-step hidden text-center">
+      <div class="py-8">
+        <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+          <span class="text-4xl">✓</span>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-2">Order Placed Successfully!</h3>
+        <p class="text-gray-600 mb-4">Your order has been received. You'll get a confirmation via WhatsApp and Email soon.</p>
+        <div id="orderIdDisplay" class="bg-blue-50 p-4 rounded-lg mb-6 text-sm text-gray-700">
+          <p><span class="font-semibold">Order ID:</span> <span id="orderId" class="font-mono">-</span></p>
+        </div>
+        <button id="checkoutDone" class="w-full px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold hover:shadow-lg transition">Back to Shopping</button>
+      </div>
     </div>
   </div>
 </div>

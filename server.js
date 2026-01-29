@@ -9,8 +9,11 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Serve frontend
-app.use(express.static('public'));
+// Simple request logger to help debug 404s
+app.use((req, res, next) => {
+  console.log(new Date().toISOString(), req.method, req.url);
+  next();
+});
 
 // Try to use sqlite3 if installed to serve products and orders
 let db = null;
@@ -94,6 +97,9 @@ app.post('/api/orders', (req, res) => {
     res.json({ success: true, order: { name, phone, address, notes, items, total } });
   }
 });
+
+// Serve frontend AFTER API routes so API endpoints take priority
+app.use(express.static('public'));
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

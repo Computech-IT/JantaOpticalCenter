@@ -2,21 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Auto-generated product sitemap. Replace SITE with your production domain. -->
   <url>
-    <loc>https://www.jantaoptical.com/</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://www.jantaoptical.com/#collection</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.jantaoptical.com/#about</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://www.jantaoptical.com/products/luxe-polarized</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -88,6 +73,21 @@
   </url>
   <url>
     <loc>https://www.jantaoptical.com/products/signature-aviator-sport</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.jantaoptical.com/products/minimal-frame-slim</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.jantaoptical.com/products/sport-pro-jr</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.jantaoptical.com/products/elegance-collection-noir</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

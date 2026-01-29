@@ -3,7 +3,7 @@ const path = require('path');
 
 const dataPath = path.join(__dirname, '..', 'public', 'data', 'products.json');
 const outPath = path.join(__dirname, '..', 'public', 'sitemap-products.xml');
-const site = process.env.SITE_URL || 'https://example.com';
+const site = process.env.SITE_URL || 'https://www.jantaoptical.com';
 
 if (!fs.existsSync(dataPath)) {
   console.error('products.json not found at', dataPath);
