@@ -17,6 +17,7 @@ logs/
 
 # Databases
 /data/*.db
+!/data/products.db
 
 # Editor
 .vscode/
