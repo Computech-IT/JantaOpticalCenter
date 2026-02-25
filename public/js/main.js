@@ -41,18 +41,30 @@ document.addEventListener("DOMContentLoaded", () => {
      INIT
   ============================== */
   fetch("/api/products")
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) return res.json().then(err => { throw err; });
+      return res.json();
+    })
     .then(data => {
       products = data;
       renderProductGrid();
     })
-    .catch(err => console.error("Product load failed", err));
+    .catch(err => {
+      console.error("Product load failed", err);
+      if (productGrid) productGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #ef4444; padding: 2rem;">Error: ${err.error || 'Failed to load products'}</p>`;
+    });
 
   /* =============================
      RENDER GRID
   ============================== */
   function renderProductGrid(dataToRender = products) {
     if (!productGrid) return;
+
+    // Safety check: ensure we have an array
+    if (!Array.isArray(dataToRender)) {
+      console.error("renderProductGrid expected array, got:", dataToRender);
+      return;
+    }
 
     productGrid.innerHTML = dataToRender.map(product => {
       const images = (product.images && product.images.length > 0) ? product.images : ['data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><rect fill=\'%23eee\' width=\'100%\' height=\'100%\'/><text fill=\'%23aaa\' x=\'50%\' y=\'50%\' font-family=\'Arial\' font-size=\'12\' text-anchor=\'middle\' dy=\'0.3em\'>No Image</text></svg>'];
