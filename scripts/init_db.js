@@ -29,7 +29,8 @@ db.serialize(() => {
 
   const stmt = db.prepare('INSERT INTO products (id, name, price, description, img) VALUES (?, ?, ?, ?, ?)');
   products.forEach(p => {
-    stmt.run(p.id, p.name, p.price, p.desc || p.description || '', p.img);
+    const images = Array.isArray(p.images) ? JSON.stringify(p.images) : JSON.stringify([p.img || '']);
+    stmt.run(p.id, p.name, p.price, p.desc || p.description || '', images);
   });
   stmt.finalize();
   // create orders table if not exists
@@ -44,7 +45,30 @@ db.serialize(() => {
     created_at TEXT
   )`);
 
-  console.log('Database initialized at', dbPath);
+  // create admins table
+  db.run(`CREATE TABLE IF NOT EXISTS admins (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE,
+    password_hash TEXT,
+    created_at TEXT
+  )`);
+
+  const bcrypt = require('bcryptjs');
+  const defaultUser = 'admin';
+  const defaultPass = 'admin123';
+  const passHash = bcrypt.hashSync(defaultPass, 10);
+  const now = new Date().toISOString();
+
+  // Use REPLACE INTO to ensure the account exists with the correct password every time it runs
+  db.run('REPLACE INTO admins (id, username, password_hash, created_at) VALUES (1, ?, ?, ?)', [defaultUser, passHash, now], (err) => {
+    if (err) console.error('Error creating admin:', err.message);
+    else console.log('Admin account created or refreshed: admin / admin123');
+  });
+
+  console.log('Database initialization scheduled.');
 });
 
-db.close();
+db.close((err) => {
+  if (err) console.error('Error closing database:', err.message);
+  else console.log('Database initialization complete and connection closed.');
+});

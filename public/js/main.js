@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =============================
      INIT
   ============================== */
-  fetch("./data/products.json")
+  fetch("/api/products")
     .then(res => res.json())
     .then(data => {
       products = data;
@@ -54,12 +54,17 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderProductGrid(dataToRender = products) {
     if (!productGrid) return;
 
-    productGrid.innerHTML = dataToRender.map(product => `
+    productGrid.innerHTML = dataToRender.map(product => {
+      const images = (product.images && product.images.length > 0) ? product.images : ['data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\'><rect fill=\'%23eee\' width=\'100%\' height=\'100%\'/><text fill=\'%23aaa\' x=\'50%\' y=\'50%\' font-family=\'Arial\' font-size=\'12\' text-anchor=\'middle\' dy=\'0.3em\'>No Image</text></svg>'];
+
+      const getImgSrc = (src) => src.startsWith('http') || src.startsWith('data:') ? src : src.startsWith('images/') ? src : `images/products/${src}`;
+
+      return `
       <div class="product-card" data-id="${product.id}">
         
         <div class="product-image-wrap">
           <img 
-            src="${product.images[0]}" 
+            src="${getImgSrc(images[0])}" 
             alt="${product.name}" 
             class="product-image main-img"
           />
@@ -72,11 +77,11 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="product-thumbnails">
-          ${product.images.map((img, i) => `
+          ${images.map((img, i) => `
             <img 
-              src="${img}" 
+              src="${getImgSrc(img)}" 
               class="card-thumb ${i === 0 ? "active" : ""}" 
-              data-src="${img}" 
+              data-src="${getImgSrc(img)}" 
             />
           `).join("")}
         </div>
@@ -87,7 +92,8 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         
       </div>
-    `).join("");
+    `;
+    }).join("");
   }
 
   /* =============================
@@ -139,21 +145,24 @@ document.addEventListener("DOMContentLoaded", () => {
      MODAL LOGIC
   ============================== */
   function openModal(product) {
+    const getImgSrc = (src) => src.startsWith('http') || src.startsWith('data:') ? src : src.startsWith('images/') ? src : `images/products/${src}`;
+    const images = (product.images && product.images.length > 0) ? product.images : [''];
+
     // Populate Modal Info
     modalTitle.textContent = product.name;
     modalPrice.textContent = `₹${product.price}`;
 
     // Setup Scroller Images
-    modalViewer.innerHTML = product.images.map(img => `
+    modalViewer.innerHTML = images.map(img => `
       <div class="slideshow-item">
-        <img src="${img}" alt="${product.name}" />
+        <img src="${getImgSrc(img)}" alt="${product.name}" />
       </div>
     `).join("");
 
     // Setup Thumbs
-    modalThumbs.innerHTML = product.images.map((img, i) => `
+    modalThumbs.innerHTML = images.map((img, i) => `
       <img 
-        src="${img}" 
+        src="${getImgSrc(img)}" 
         class="slideshow-thumb ${i === 0 ? "active" : ""}" 
         data-index="${i}"
       />
@@ -272,9 +281,13 @@ document.addEventListener("DOMContentLoaded", () => {
       cartSummary.style.display = 'block';
 
       // Render Items with Controls
-      cartItemsList.innerHTML = cart.map((item, index) => `
+      cartItemsList.innerHTML = cart.map((item, index) => {
+        const getImgSrc = (src) => src.startsWith('http') || src.startsWith('data:') ? src : src.startsWith('images/') ? src : `images/products/${src}`;
+        const mainImg = (item.images && item.images.length > 0) ? item.images[0] : '';
+
+        return `
         <div class="cart-item">
-          <img src="${item.images[0]}" alt="${item.name}">
+          <img src="${getImgSrc(mainImg)}" alt="${item.name}">
           
           <div class="cart-item-details">
              <h4>${item.name}</h4>
@@ -293,7 +306,8 @@ document.addEventListener("DOMContentLoaded", () => {
              </span>
           </div>
         </div>
-      `).join("");
+      `;
+      }).join("");
 
       // Shipping Bar Logic
       const shippingDiff = FREE_SHIPPING_THRESHOLD - totalPrice;

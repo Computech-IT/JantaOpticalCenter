@@ -30,3 +30,7 @@ build/
 # Temporary
 tmp/
 temp/
+
+# Production & Backups
+mysql_dump.sql
+data/products_backup_*.db

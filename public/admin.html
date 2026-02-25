@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Janta Optical</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+
+  <!-- Background Animated Elements -->
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Login Section -->
+  <section id="login-section" class="glass-panel login-panel">
+    <div class="login-header">
+      <div class="logo-icon"><i class="fa-solid fa-glasses"></i></div>
+      <h2>Welcome Back</h2>
+      <p>Enter your admin credentials</p>
+    </div>
+    <form id="login-form">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-user"></i>
+          <input type="text" id="username" placeholder="admin" required>
+        </div>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="password" placeholder="••••••••" required>
+        </div>
+      </div>
+      <button type="submit" class="btn-primary" id="login-btn">
+        <span>Login</span> <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </form>
+  </section>
+
+  <!-- Dashboard Section -->
+  <section id="dashboard-section" class="dashboard hidden">
+    <!-- Sidebar -->
+    <aside class="sidebar glass-panel">
+      <div class="sidebar-header">
+        <div class="logo-icon"><i class="fa-solid fa-glasses"></i></div>
+        <h2>Admin Panel</h2>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" id="nav-products"><i class="fa-solid fa-box-open"></i> Products</a>
+        <a href="#" class="nav-item" id="nav-analytics"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+        <a href="#" class="nav-item" id="nav-settings"><i class="fa-solid fa-cog"></i> Settings</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="admin-info">
+          <div class="admin-avatar"><i class="fa-solid fa-user-shield"></i></div>
+          <div class="admin-details">
+            <span class="admin-name" id="display-username">Admin</span>
+            <span class="admin-role">Super Admin</span>
+          </div>
+        </div>
+        <button id="logout-btn" class="btn-danger-outline"><i class="fa-solid fa-right-from-bracket"></i></button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="top-nav glass-panel">
+        <div class="search-bar" id="top-search-bar">
+          <i class="fa-solid fa-search"></i>
+          <input type="text" id="search-product" placeholder="Search products...">
+        </div>
+        <div class="nav-actions">
+          <button class="icon-btn"><i class="fa-solid fa-bell"></i></button>
+          <button class="btn-primary" id="open-add-modal-btn">
+            <i class="fa-solid fa-plus"></i> New Product
+          </button>
+        </div>
+      </header>
+
+      <div class="content-wrapper">
+        <!-- Products Section -->
+        <div id="section-products" class="admin-section">
+          <div class="section-title">
+            <h3>Manage Products</h3>
+            <p>Create, update, or remove inventory items.</p>
+          </div>
+          <div class="products-grid" id="products-grid">
+            <div class="loader-container" id="products-loader">
+              <div class="spinner"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div id="section-analytics" class="admin-section hidden">
+          <div class="section-title">
+            <h3>Dashboard Analytics</h3>
+            <p>Overview of your business performance.</p>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Total Orders</span>
+                <h2 id="stat-orders">0</h2>
+              </div>
+            </div>
+            <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Total Revenue</span>
+                <h2 id="stat-revenue">₹0</h2>
+              </div>
+            </div>
+            <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-glasses"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Total Products</span>
+                <h2 id="stat-products">0</h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="orders-table-container glass-panel" style="margin-top: 2rem; padding: 1.5rem;">
+            <div class="section-title" style="margin-bottom: 1.5rem;">
+              <h4>Recent Orders</h4>
+            </div>
+            <table class="admin-table" id="orders-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Total</th>
+                  <th>Date</th>
+                  <th>Items</th>
+                </tr>
+              </thead>
+              <tbody id="orders-list">
+                <!-- Orders injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="section-settings" class="admin-section hidden">
+          <div class="section-title">
+            <h3>Admin Settings</h3>
+            <p>Manage your account and site preferences.</p>
+          </div>
+          <div class="settings-grid">
+            <div class="settings-card glass-panel">
+              <h4>Security</h4>
+              <p class="text-muted">Update your administrative password</p>
+              <form id="change-password-form" style="margin-top: 1.5rem;">
+                <div class="input-group">
+                  <label>Current Password</label>
+                  <input type="password" id="current-password" required>
+                </div>
+                <div class="input-group">
+                  <label>New Password</label>
+                  <input type="password" id="new-password" required>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">Update Password</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </section>
+
+  <!-- Product Form Modal -->
+  <div id="product-modal" class="modal-overlay hidden">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <h3 id="modal-title">Add New Product</h3>
+        <button class="icon-btn close-modal"><i class="fa-solid fa-times"></i></button>
+      </div>
+      <form id="product-form">
+        <input type="hidden" id="product-id">
+        <div class="form-row">
+          <div class="input-group">
+            <label for="product-name">Product Name</label>
+            <input type="text" id="product-name" required placeholder="e.g. Classic Aviators">
+          </div>
+          <div class="input-group">
+            <label for="product-price">Price (₹)</label>
+            <input type="number" id="product-price" required min="0" placeholder="e.g. 1500">
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="product-desc">Description</label>
+          <textarea id="product-desc" rows="3" placeholder="Enter a rich description..."></textarea>
+        </div>
+        <div class="input-group">
+          <label>Upload Images</label>
+          <div class="upload-zone" id="upload-zone">
+            <i class="fa-solid fa-cloud-upload-alt fa-2x"></i>
+            <p>Click to Upload Product Images</p>
+            <input type="file" id="product-images-input" multiple accept="image/*" class="file-input-hidden">
+          </div>
+          <div id="image-preview-container" class="preview-container">
+            <!-- Previews will appear here -->
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary close-modal">Cancel</button>
+          <button type="submit" class="btn-primary" id="save-product-btn">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+
+</html>
