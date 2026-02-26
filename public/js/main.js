@@ -281,45 +281,44 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
     const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-    navCartCount.textContent = totalCount;
+    if (navCartCount) navCartCount.textContent = totalCount;
 
     if (cart.length === 0) {
-      cartItemsList.style.display = 'none';
-      cartEmpty.style.display = 'flex';
-      cartSummary.style.display = 'none';
+      if (cartItemsList) cartItemsList.style.display = 'none';
+      if (cartEmpty) cartEmpty.style.display = 'flex';
+      if (cartSummary) cartSummary.style.display = 'none';
+      if (checkoutBtn) checkoutBtn.style.display = 'none';
     } else {
-      cartItemsList.style.display = 'block';
-      cartEmpty.style.display = 'none';
-      cartSummary.style.display = 'block';
+      if (cartItemsList) {
+        cartItemsList.style.display = 'block';
+        // Render Items with Controls
+        cartItemsList.innerHTML = cart.map((item, index) => {
+          const getImgSrc = (src) => src.startsWith('http') || src.startsWith('data:') ? src : src.startsWith('images/') ? src : `images/products/${src}`;
+          const mainImgArr = Array.isArray(item.images) ? item.images : (item.img ? JSON.parse(item.img) : []);
+          const mainImg = mainImgArr[0] || '';
 
-      // Render Items with Controls
-      cartItemsList.innerHTML = cart.map((item, index) => {
-        const getImgSrc = (src) => src.startsWith('http') || src.startsWith('data:') ? src : src.startsWith('images/') ? src : `images/products/${src}`;
-        const mainImg = (item.images && item.images.length > 0) ? item.images[0] : '';
-
-        return `
-        <div class="cart-item">
-          <img src="${getImgSrc(mainImg)}" alt="${item.name}">
-          
-          <div class="cart-item-details">
-             <h4>${item.name}</h4>
-             <p class="price">₹${item.price}</p>
-             
-             <div class="cart-controls">
-               <button class="qty-btn" onclick="window.updateQty(${index}, -1)">−</button>
-               <span class="qty-val">${item.qty}</span>
-               <button class="qty-btn" onclick="window.updateQty(${index}, 1)">+</button>
-             </div>
-          </div>
-
-          <div class="cart-remove">
-             <span class="remove-btn-icon" onclick="window.updateQty(${index}, -9999)" title="Remove">
-               🗑
-             </span>
-          </div>
-        </div>
-      `;
-      }).join("");
+          return `
+            <div class="cart-item">
+              <img src="${getImgSrc(mainImg)}" alt="${item.name}">
+              <div class="cart-item-details">
+                 <h4>${item.name}</h4>
+                 <p class="price">₹${item.price}</p>
+                 <div class="cart-controls">
+                   <button class="qty-btn" onclick="window.updateQty(${index}, -1)">−</button>
+                   <span class="qty-val">${item.qty}</span>
+                   <button class="qty-btn" onclick="window.updateQty(${index}, 1)">+</button>
+                 </div>
+              </div>
+              <div class="cart-remove">
+                 <span class="remove-btn-icon" onclick="window.updateQty(${index}, -9999)" title="Remove">🗑</span>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+      if (cartEmpty) cartEmpty.style.display = 'none';
+      if (cartSummary) cartSummary.style.display = 'block';
+      if (checkoutBtn) checkoutBtn.style.display = 'block';
 
       // Shipping Bar Logic
       const shippingDiff = FREE_SHIPPING_THRESHOLD - totalPrice;
@@ -330,78 +329,97 @@ document.addEventListener("DOMContentLoaded", () => {
         shippingHtml = `<div class="shipping-bar success">🎉 You've unlocked <b>Free Shipping</b>!</div>`;
       }
 
-      // Update Summary (Insert Shipping Bar before totals)
-      totalPriceEl.textContent = `₹${totalPrice}`;
+      const shipContainer = document.getElementById("shippingContainer");
+      if (shipContainer) shipContainer.innerHTML = shippingHtml;
 
-      // Inject shipping bar if container exists (or create it)
-      let shipContainer = document.getElementById("shippingContainer");
-      if (!shipContainer) {
-        shipContainer = document.createElement("div");
-        shipContainer.id = "shippingContainer";
-        cartItemsList.parentNode.insertBefore(shipContainer, cartItemsList);
-      }
-      shipContainer.innerHTML = shippingHtml;
+      if (totalPriceEl) totalPriceEl.textContent = `₹${totalPrice}`;
     }
   }
 
   function openCart() {
-    cartDrawer.classList.add("open");
-    backdrop.classList.add("open");
+    if (cartDrawer) cartDrawer.classList.add("open");
+    if (backdrop) backdrop.classList.add("open");
   }
 
   function closeCart() {
-    cartDrawer.classList.remove("open");
-    backdrop.classList.remove("open");
+    if (cartDrawer) cartDrawer.classList.remove("open");
+    if (backdrop) backdrop.classList.remove("open");
   }
 
-  openCartBtn.addEventListener("click", openCart);
-  cartClose.addEventListener("click", closeCart);
-  backdrop.addEventListener("click", closeCart);
+  if (openCartBtn) openCartBtn.addEventListener("click", openCart);
+  if (cartClose) cartClose.addEventListener("click", closeCart);
+  if (backdrop) backdrop.addEventListener("click", closeCart);
 
-  // WhatsApp Button Logic Updated for Qty
+  // WhatsApp Button
   const whatsappBtn = document.getElementById("whatsappOrder");
   if (whatsappBtn) {
-    /* Remove old listener to avoid dupes if any (though replacement handles this) */
-    const newBtn = whatsappBtn.cloneNode(true);
-    whatsappBtn.parentNode.replaceChild(newBtn, whatsappBtn);
-
-    newBtn.addEventListener("click", () => {
+    whatsappBtn.onclick = () => {
       if (cart.length === 0) return showToast("Cart is empty");
-
       const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
       let msg = `*New Order from Janta Optical Website*\n------------------\n`;
       cart.forEach((item, i) => {
         msg += `${i + 1}. ${item.name} (x${item.qty}) - ₹${item.price * item.qty}\n`;
       });
       msg += `------------------\n*Total Order Value: ₹${totalPrice}*\n\nPlease confirm availability.`;
-
       const phone = "918768837581";
-      const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-      window.open(url, "_blank");
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+    };
+  }
+
+  // Checkout Logic
+  const checkoutBtn = document.getElementById("checkoutBtn");
+  const checkoutModal = document.getElementById("checkoutModal");
+  const checkoutForm = document.getElementById("checkoutForm");
+  const checkoutClose = document.getElementById("checkoutClose");
+
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", () => {
+      if (cart.length === 0) return showToast("Cart is empty!");
+      closeCart();
+      checkoutModal.classList.add("active");
     });
   }
 
-  // Checkout Button (Opens Modal)
-  const checkoutBtn = document.getElementById("checkoutBtn");
-  const checkoutModal = document.getElementById("checkoutModal");
-  if (checkoutBtn && checkoutModal) {
-    const checkoutClose = document.getElementById("checkoutClose");
+  if (checkoutClose) {
+    checkoutClose.addEventListener("click", () => checkoutModal.classList.remove("active"));
+  }
 
-    // Remove old listeners by cloning
-    const newBtn = checkoutBtn.cloneNode(true);
-    checkoutBtn.parentNode.replaceChild(newBtn, checkoutBtn);
+  if (checkoutForm) {
+    checkoutForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("orderName").value;
+      const phone = document.getElementById("orderPhone").value;
+      const address = document.getElementById("orderAddress").value;
+      const notes = document.getElementById("orderNotes").value;
+      const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-    newBtn.addEventListener("click", () => {
-      if (cart.length === 0) {
-        showToast("Cart is empty!");
-        return;
+      const submitBtn = document.getElementById("confirmOrderBtn");
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = "Processing...";
+
+      try {
+        const res = await fetch("/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, phone, address, notes, items: cart, total })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showToast("Order placed successfully!");
+          cart = [];
+          saveCart();
+          updateCartUI();
+          checkoutModal.classList.remove("active");
+          checkoutForm.reset();
+        } else {
+          showToast(data.error || "Order failed. Try again.");
+        }
+      } catch (err) {
+        showToast("Error connecting to server.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "Place Order";
       }
-      closeCart(); // Close drawer
-      checkoutModal.classList.add("active");
-    });
-
-    checkoutClose.addEventListener("click", () => {
-      checkoutModal.classList.remove("active");
     });
   }
 
