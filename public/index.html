@@ -79,8 +79,8 @@
         <a href="#collection">Men</a>
         <a href="#collection">Women</a>
         <a href="#collection">Kids</a>
-        <a href="#about">About Us</a>
-        <a href="#contact">Contact</a>
+        <a href="about.html">About Us</a>
+        <a href="about.html#contact">Contact</a>
       </nav>
 
       <div class="nav-actions">
@@ -184,43 +184,7 @@
 
   <!-- FOOTER -->
   <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <h4>Janta Optical Center</h4>
-        <p>Your trusted partner for premium vision care since 1995.</p>
-        <div class="socials">
-          <a href="#">Insta</a>
-          <a href="#">FB</a>
-          <a href="#">Twitter</a>
-        </div>
-      </div>
-      <div>
-        <h5>Shop</h5>
-        <ul>
-          <li><a href="#collection">Men's Eyewear</a></li>
-          <li><a href="#collection">Women's Eyewear</a></li>
-          <li><a href="#collection">Kids' Eyewear</a></li>
-          <li><a href="#collection">Sunglasses</a></li>
-          <li><a href="#categories">Shop by Shape</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5>Support</h5>
-        <ul>
-          <li><a href="#">Track Order</a></li>
-          <li><a href="#">Return Policy</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Store Locator</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5>Newsletter</h5>
-        <div class="newsletter">
-          <input type="email" placeholder="Your email">
-          <button>Subscribe</button>
-        </div>
-      </div>
-    </div>
+
     <div class="footer-bottom">
       <div>© <span id="year"></span> Janta Optical Center. All rights reserved.</div>
     </div>
@@ -294,10 +258,20 @@
       <a href="#collection" class="mobile-link">Women</a>
       <a href="#collection" class="mobile-link">Kids</a>
       <a href="#categories" class="mobile-link">Shop by Shape</a>
-      <a href="#about" class="mobile-link">About Us</a>
-      <a href="#contact" class="mobile-link">Contact</a>
+      <a href="about.html" class="mobile-link">About Us</a>
+      <a href="about.html#contact" class="mobile-link">Contact</a>
     </nav>
   </div>
+
+  <!-- FLOATING CART FAB -->
+  <button class="floating-cart-fab" id="floatingCartBtn" style="display:none;" aria-label="Open Cart">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <path d="M16 10a4 4 0 01-8 0" />
+    </svg>
+    <span class="floating-cart-count" id="floatingCartCount">0</span>
+  </button>
 
   <div id="toasts" class="toasts"></div>
 

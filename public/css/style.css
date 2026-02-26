@@ -1382,3 +1382,93 @@ button {
     width: 100%;
   }
 }
+
+/* ===========================
+   FLOATING CART FAB
+=========================== */
+.floating-cart-fab {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  z-index: 9000;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: fixed;
+}
+
+.floating-cart-fab:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.floating-cart-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* ===========================
+   PRODUCT CARD — ADD TO CART BTN
+=========================== */
+.product-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.add-to-cart-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.add-to-cart-btn:hover {
+  background: var(--accent);
+  transform: scale(1.12);
+}
+
+/* Cart item line total */
+.cart-item-price {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 4px 0 0;
+}
+
+/* Load error */
+.load-error {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: #ef4444;
+}

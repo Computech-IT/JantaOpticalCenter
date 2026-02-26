@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>About Us | Janta Optical Center</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Learn about Janta Optical Center — Sikkim's trusted destination for premium eyewear since 1995. Meet our team, our story, and our mission." />
+    <meta name="author" content="Janta Optical Centre" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="canonical" href="https://www.jantaoptical.com/about.html" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        /* ── Page-specific overrides ── */
+        .about-hero {
+            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 100%);
+            color: white;
+            padding: 100px 40px 80px;
+            text-align: center;
+        }
+
+        .about-hero .eyebrow {
+            color: #a78bfa;
+        }
+
+        .about-hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.15;
+            margin: 16px 0 24px;
+            color: white;
+        }
+
+        .about-hero p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Story section */
+        .story-section {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+
+        .story-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .story-section p {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        /* Values grid */
+        .values-section {
+            background: #f7f8fc;
+            padding: 80px 40px;
+        }
+
+        .values-section .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 28px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .value-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .value-card h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .value-card p {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* Contact section */
+        .contact-section {
+            padding: 80px 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 28px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .contact-detail-icon {
+            font-size: 1.4rem;
+            width: 40px;
+            text-align: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .contact-detail-text strong {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 3px;
+        }
+
+        .contact-detail-text span {
+            font-size: 0.95rem;
+            color: var(--primary);
+        }
+
+        /* Contact form */
+        .contact-form-wrap {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+        }
+
+        .contact-form-wrap h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .contact-form-wrap .sub {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 28px;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .contact-form .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .contact-form label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #999;
+        }
+
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form select {
+            padding: 12px 14px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--primary);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fafafa;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus,
+        .contact-form select:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+            background: white;
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .btn-contact {
+            background: var(--primary);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            width: 100%;
+        }
+
+        .btn-contact:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        /* Map placeholder */
+        .map-section {
+            background: #1a1a2e;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-hero {
+                padding: 80px 20px 60px;
+            }
+
+            .story-section {
+                padding: 60px 20px;
+            }
+
+            .values-section {
+                padding: 60px 20px;
+            }
+
+            .contact-section {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 60px 20px;
+            }
+
+            .contact-form-wrap {
+                padding: 28px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="navbar-content">
+            <div class="logo">
+                <a href="index.html" style="display:flex; align-items:center; gap:10px; text-decoration:none;">
+                    <span class="logo-icon">👓</span>
+                    <h1>Janta Optical Center</h1>
+                </a>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html#collection">Men</a>
+                <a href="index.html#collection">Women</a>
+                <a href="index.html#collection">Kids</a>
+                <a href="about.html" class="nav-active">About Us</a>
+                <a href="about.html#contact">Contact</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="index.html" class="btn btn-primary" style="font-size:13px; padding: 10px 20px;">Shop Now</a>
+                <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="about-hero">
+        <span class="eyebrow">OUR STORY</span>
+        <h2>Bringing Clarity to<br>Every Face, Every Vision</h2>
+        <p>For over three decades, Janta Optical Center has been Sikkim's most trusted destination for precision eyewear
+            — where craftsmanship meets clarity.</p>
+    </section>
+
+    <!-- OUR STORY -->
+    <section class="section" style="background: white;">
+        <div class="story-section">
+            <h3>The Janta Optical Story</h3>
+            <p>
+                Founded in 2011 in the heart of Pakyong (New Market), Sikkim, Janta Optical Center began with a single
+                mission: to
+                make premium, precision-crafted eyewear accessible to everyone. What started as a small local shop has
+                grown into one of the region's most respected optical destinations, serving thousands of satisfied
+                customers across Sikkim and beyond.
+            </p>
+            <p>
+                Over the years, we have partnered with leading optical manufacturers to bring you an unmatched
+                collection of prescription frames, sunglasses, and specialty lenses. Every product in our collection is
+                handpicked for quality, durability, and design — because we believe your eyewear is more than a medical
+                device; it is a statement of who you are.
+            </p>
+            <p>
+                Our team of trained opticians and frame stylists work tirelessly to ensure that every customer leaves
+                with not just the right prescription, but the perfect fit. We combine decades of expertise with modern
+                diagnostic technology to deliver eye care that is thorough, compassionate, and personalized.
+            </p>
+            <p>
+                Today, Janta Optical Center continues its legacy of trust and quality — now with a growing online
+                presence, making it easier than ever to explore our collection from the comfort of your home and have
+                premium eyewear delivered right to your doorstep, anywhere in India.
+            </p>
+        </div>
+    </section>
+
+    <!-- VALUES -->
+    <section class="values-section">
+        <div class="section-header">
+            <h3>What We Stand For</h3>
+            <p>The values that have guided us since 1995</p>
+        </div>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">🔍</div>
+                <h4>Precision</h4>
+                <p>Every lens is crafted and fitted with meticulous attention to your prescription, ensuring comfort and
+                    crystal-clear vision.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">💎</div>
+                <h4>Quality</h4>
+                <p>We stock only frames and lenses that meet our strict standards — durable, stylish, and built to last
+                    for years of daily wear.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🤝</div>
+                <h4>Trust</h4>
+                <p>Three decades of honest service have earned us the loyalty of thousands of families across Sikkim who
+                    return to us year after year.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🌿</div>
+                <h4>Care</h4>
+                <p>We treat every customer like family — offering personalized consultations, free adjustments, and
+                    after-sales support you can always count on.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" style="background: #f7f8fc;">
+        <div class="contact-section">
+
+            <!-- Info -->
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <p>Whether you have a question about our products, need help with your prescription, or simply want to
+                    book a visit — we are here for you. Reach out and our team will respond within 24 hours.</p>
+
+                <div class="contact-detail">
+                    <div class="contact-detail-icon">📍</div>
+                    <div class="contact-detail-text">
+                        <strong>Store Address</strong>
+                        <span>Janta Optical Center, Pakyong, East Sikkim — 737106</span>
+                    </div>
+                </div>
+
+                <div class="contact-detail">
+                    <div class="contact-detail-icon">📞</div>
+                    <div class="contact-detail-text">
+                        <strong>Phone / WhatsApp</strong>
+                        <span><a href="tel:+918768837581" style="color:inherit;">+91 87688 37581</a></span>
+                    </div>
+                </div>
+
+                <div class="contact-detail">
+                    <div class="contact-detail-icon">📧</div>
+                    <div class="contact-detail-text">
+                        <strong>Email</strong>
+                        <span><a href="mailto:info@jantaoptical.com"
+                                style="color:inherit;">info@jantaoptical.com</a></span>
+                    </div>
+                </div>
+
+                <div class="contact-detail">
+                    <div class="contact-detail-icon">🕐</div>
+                    <div class="contact-detail-text">
+                        <strong>Store Hours</strong>
+                        <span>Mon – Sat: 9:00 AM – 7:00 PM<br>Sunday: 10:00 AM – 4:00 PM</span>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/918768837581?text=Hello%20Janta%20Optical%2C%20I%20have%20an%20enquiry."
+                    target="_blank" class="btn btn-primary"
+                    style="margin-top:8px; display:inline-flex; align-items:center; gap:8px;">
+                    💬 Chat on WhatsApp
+                </a>
+            </div>
+
+            <!-- Form -->
+            <div class="contact-form-wrap">
+                <h4>Send Us a Message</h4>
+                <p class="sub">We'll get back to you by the next business day.</p>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="cName">Full Name</label>
+                        <input type="text" id="cName" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cPhone">Phone Number</label>
+                        <input type="tel" id="cPhone" placeholder="+91 00000 00000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cSubject">Subject</label>
+                        <select id="cSubject">
+                            <option value="product">Product Inquiry</option>
+                            <option value="prescription">Prescription Help</option>
+                            <option value="order">Order Support</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cMessage">Message</label>
+                        <textarea id="cMessage" placeholder="How can we help you?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-contact" id="contactSubmitBtn">Send Message</button>
+                    <p id="contactFeedback" style="text-align:center; font-size:0.85rem; margin-top:8px; display:none;">
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAP PLACEHOLDER -->
+    <div class="map-section">
+        <span>📍 Pakyong, East Sikkim — 737106 &nbsp;|&nbsp; Visit us in store</span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-bottom" style="padding: 24px 40px;">
+            <div>© <span id="year"></span> Janta Optical Center. All rights reserved. &nbsp;|&nbsp; <a href="index.html"
+                    style="color: var(--accent);">Back to Shop</a></div>
+        </div>
+    </footer>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <span class="logo-icon">👓</span>
+                <h1>Janta Optical</h1>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose">&times;</button>
+        </div>
+        <nav class="mobile-nav-links">
+            <a href="index.html#collection" class="mobile-link">Shop</a>
+            <a href="index.html#categories" class="mobile-link">Shop by Shape</a>
+            <a href="about.html" class="mobile-link">About Us</a>
+            <a href="about.html#contact" class="mobile-link">Contact</a>
+        </nav>
+    </div>
+
+    <style>
+        .nav-active {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 2px;
+        }
+    </style>
+
+    <script>
+        // Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile menu
+        const navToggle = document.getElementById('navToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+        if (navToggle) navToggle.onclick = () => { mobileMenu.classList.add('open'); mobileMenuOverlay.classList.add('open'); };
+        if (mobileMenuClose) mobileMenuClose.onclick = () => { mobileMenu.classList.remove('open'); mobileMenuOverlay.classList.remove('open'); };
+        if (mobileMenuOverlay) mobileMenuOverlay.onclick = () => { mobileMenu.classList.remove('open'); mobileMenuOverlay.classList.remove('open'); };
+
+        // Contact form — sends via WhatsApp
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('cName').value.trim();
+                const phone = document.getElementById('cPhone').value.trim();
+                const subject = document.getElementById('cSubject').value;
+                const message = document.getElementById('cMessage').value.trim();
+
+                const msg = `*New Enquiry — Janta Optical Website*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Subject:* ${subject}\n*Message:* ${message}`;
+
+                const btn = document.getElementById('contactSubmitBtn');
+                const fb = document.getElementById('contactFeedback');
+
+                // Open WhatsApp
+                window.open(`https://wa.me/918768837581?text=${encodeURIComponent(msg)}`, '_blank');
+
+                fb.style.display = 'block';
+                fb.style.color = '#16a34a';
+                fb.textContent = '✅ Opening WhatsApp to send your message...';
+                contactForm.reset();
+            });
+        }
+    </script>
+
+</body>
+
+</html>
