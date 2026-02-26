@@ -78,6 +78,9 @@
     <!-- Main Content -->
     <main class="main-content">
       <header class="top-nav glass-panel">
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
         <div class="search-bar" id="top-search-bar">
           <i class="fa-solid fa-search"></i>
           <input type="text" id="search-product" placeholder="Search products...">
@@ -85,7 +88,7 @@
         <div class="nav-actions">
           <button class="icon-btn"><i class="fa-solid fa-bell"></i></button>
           <button class="btn-primary" id="open-add-modal-btn">
-            <i class="fa-solid fa-plus"></i> New Product
+            <i class="fa-solid fa-plus"></i> <span class="btn-label">New Product</span>
           </button>
         </div>
       </header>
@@ -98,8 +101,26 @@
             <p>Create, update, or remove inventory items.</p>
           </div>
           <div class="products-grid" id="products-grid">
-            <div class="loader-container" id="products-loader">
-              <div class="spinner"></div>
+            <!-- Skeleton cards shown while loading -->
+            <div class="admin-product-skeleton">
+              <div class="skeleton-admin skeleton-admin-img"></div>
+              <div class="skeleton-admin skeleton-admin-line" style="width:70%"></div>
+              <div class="skeleton-admin skeleton-admin-line" style="width:45%;height:12px"></div>
+            </div>
+            <div class="admin-product-skeleton">
+              <div class="skeleton-admin skeleton-admin-img"></div>
+              <div class="skeleton-admin skeleton-admin-line" style="width:60%"></div>
+              <div class="skeleton-admin skeleton-admin-line" style="width:40%;height:12px"></div>
+            </div>
+            <div class="admin-product-skeleton">
+              <div class="skeleton-admin skeleton-admin-img"></div>
+              <div class="skeleton-admin skeleton-admin-line" style="width:75%"></div>
+              <div class="skeleton-admin skeleton-admin-line" style="width:50%;height:12px"></div>
+            </div>
+            <div class="admin-product-skeleton">
+              <div class="skeleton-admin skeleton-admin-img"></div>
+              <div class="skeleton-admin skeleton-admin-line" style="width:65%"></div>
+              <div class="skeleton-admin skeleton-admin-line" style="width:35%;height:12px"></div>
             </div>
           </div>
         </div>
@@ -226,7 +247,24 @@
     </div>
   </div>
 
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
   <script src="js/admin.js"></script>
+  <script>
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+    function openSidebar() { sidebar.classList.add('open'); sidebarOverlay.classList.add('open'); }
+    function closeSidebar() { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('open'); }
+
+    if (sidebarToggle) sidebarToggle.addEventListener('click', openSidebar);
+    if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => { if (window.innerWidth <= 768) closeSidebar(); });
+    });
+  </script>
 </body>
 
 </html>
