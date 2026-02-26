@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
 
 const bcrypt = require('bcryptjs');
@@ -90,7 +91,7 @@ app.get('/api/health', (req, res) => {
 // Products API - prefer sqlite DB, fallback to JSON file
 app.get('/api/products', (req, res) => {
   if (db) {
-    db.all('SELECT id, name, price, description as desc, img FROM products', (err, rows) => {
+    db.all('SELECT id, name, price, description, img FROM products', (err, rows) => {
       if (err) return res.status(500).json({ error: err.message });
 
       // Parse images safely
@@ -102,7 +103,7 @@ app.get('/api/products', (req, res) => {
         } catch (e) {
           images = [p.img];
         }
-        return { ...p, images };
+        return { ...p, desc: p.description, images };
       });
       res.json(processed);
     });
@@ -123,7 +124,7 @@ app.get('/api/products', (req, res) => {
 app.get('/api/products/:id', (req, res) => {
   const id = Number(req.params.id);
   if (db) {
-    db.get('SELECT id, name, price, description as desc, img FROM products WHERE id = ?', [id], (err, row) => {
+    db.get('SELECT id, name, price, description, img FROM products WHERE id = ?', [id], (err, row) => {
       if (err) return res.status(500).json({ error: err.message });
       if (!row) return res.status(404).json({ error: 'Not found' });
 
@@ -134,7 +135,7 @@ app.get('/api/products/:id', (req, res) => {
       } catch (e) {
         images = [row.img];
       }
-      res.json({ ...row, images });
+      res.json({ ...row, desc: row.description, images });
     });
   } else {
     // ... fallback remains same
@@ -281,6 +282,11 @@ app.post('/api/admin/change-password', verifyToken, (req, res) => {
       res.json({ success: true, message: 'Password updated successfully' });
     });
   });
+});
+
+// Fallback for favicon.ico
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'favicon.png'));
 });
 
 // Serve frontend AFTER API routes so API endpoints take priority
