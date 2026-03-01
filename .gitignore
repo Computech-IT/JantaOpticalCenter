@@ -37,3 +37,4 @@ data/products_backup_*.db
 
 # JS Source Backups (keep locally, not in repo)
 public/js/backup/
+public/images/products/*
