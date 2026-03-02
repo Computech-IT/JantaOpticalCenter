@@ -1,297 +1,320 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-require('dotenv').config();
+require("dotenv").config();
 
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-
-const JWT_SECRET = process.env.JWT_SECRET || 'janta_optical_super_secret_key_123!';
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
+const { v4: uuidv4 } = require("uuid");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET || "super_secure_secret_key";
 
-// Middlewares
+// ---------------- MIDDLEWARE ----------------
 app.use(cors());
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 
-// Simple request logger to help debug 404s
-app.use((req, res, next) => {
-  console.log(new Date().toISOString(), req.method, req.url);
-  next();
+// ---------------- UPLOAD FOLDER ----------------
+const uploadDir = path.join(__dirname, "public/images/products");
+if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+
+// ---------------- MULTER CONFIG ----------------
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadDir),
+  filename: (req, file, cb) => cb(null, uuidv4() + path.extname(file.originalname).toLowerCase()),
 });
 
-// Database Connection (MySQL for Prod, SQLite for Dev)
-let db = null;
+const fileFilter = (req, file, cb) => {
+  const allowed = ["image/jpeg", "image/png", "image/webp"];
+  cb(null, allowed.includes(file.mimetype));
+};
+
+const upload = multer({ storage, fileFilter, limits: { fileSize: 2 * 1024 * 1024, files: 4 } });
+
+// ---------------- DATABASE ----------------
+let db;
 const isProd = process.env.DB_HOST ? true : false;
 
 if (isProd) {
-  try {
-    const mysql = require('mysql2');
-    db = mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      port: process.env.DB_PORT || 3306
-    });
-
-    db.connect(err => {
-      if (err) {
-        console.error('Failed to connect to MySQL:', err.message);
-        process.exit(1);
-      }
-      console.log('Connected to MySQL Production Database');
-    });
-
-    // Add a simple compatibility layer for SQLite-style calls
-    const originalAll = db.all;
-    db.all = (sql, params, cb) => {
-      if (typeof params === 'function') { cb = params; params = []; }
-      db.query(sql, params, (err, rows) => cb(err, rows));
-    };
-    db.get = (sql, params, cb) => {
-      if (typeof params === 'function') { cb = params; params = []; }
-      db.query(sql, params, (err, rows) => cb(err, rows ? rows[0] : null));
-    };
-    db.run = function (sql, params, cb) {
-      if (typeof params === 'function') { cb = params; params = []; }
-      db.query(sql, params, function (err, result) {
-        if (cb) cb.call({ lastID: result ? result.insertId : null, changes: result ? result.affectedRows : 0 }, err);
-      });
-    };
-    db.prepare = (sql) => {
-      return {
-        run: (params, cb) => db.run(sql, params, cb),
-        finalize: () => { } // No-op for MySQL
-      };
-    };
-  } catch (e) {
-    console.warn('mysql2 not installed; Please run npm install mysql2');
-  }
+  const mysql = require("mysql2");
+  db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+  });
+  db.connect((err) => {
+    if (err) {
+      console.error("MySQL Connection Failed:", err);
+      process.exit(1);
+    }
+    console.log("Connected to MySQL");
+  });
 } else {
-  try {
-    const sqlite3 = require('sqlite3').verbose();
-    const path = require('path');
-    const dbPath = path.join(__dirname, 'data', 'products.db');
-    db = new sqlite3.Database(dbPath, (err) => {
-      if (err) console.warn('SQLite DB not available:', err.message);
-      else console.log('Connected to SQLite DB at', dbPath);
-    });
-  } catch (e) {
-    console.warn('sqlite3 not installed; API will fall back to JSON');
-  }
+  const sqlite3 = require("sqlite3").verbose();
+  const dbPath = path.join(__dirname, "data", "products.db");
+  db = new sqlite3.Database(dbPath, (err) => {
+    if (err) return console.error("SQLite error:", err);
+    console.log("Connected to SQLite");
+  });
 }
 
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Janta Optical backend running' });
-});
-
-// Products API - prefer sqlite DB, fallback to JSON file
-app.get('/api/products', (req, res) => {
-  if (db) {
-    db.all('SELECT id, name, price, description, img FROM products', (err, rows) => {
-      if (err) return res.status(500).json({ error: err.message });
-
-      // Parse images safely
-      const processed = rows.map(p => {
-        let images = [];
-        try {
-          images = JSON.parse(p.img);
-          if (!Array.isArray(images)) images = [p.img];
-        } catch (e) {
-          images = [p.img];
-        }
-        return { ...p, desc: p.description, images };
+// Helper to execute queries with Promise
+const queryAsync = (query, params = []) => {
+  return new Promise((resolve, reject) => {
+    if (isProd) {
+      db.query(query, params, (err, results) => {
+        if (err) reject(err);
+        else resolve(results);
       });
-      res.json(processed);
-    });
-  } else {
-    const fs = require('fs');
-    const path = require('path');
-    const jsonPath = path.join(__dirname, 'public', 'data', 'products.json');
-    try {
-      const raw = fs.readFileSync(jsonPath, 'utf8');
-      res.json(JSON.parse(raw));
-    } catch (err) {
-      res.status(500).json({ error: 'Products not available' });
-    }
-  }
-});
-
-// Get single product
-app.get('/api/products/:id', (req, res) => {
-  const id = Number(req.params.id);
-  if (db) {
-    db.get('SELECT id, name, price, description, img FROM products WHERE id = ?', [id], (err, row) => {
-      if (err) return res.status(500).json({ error: err.message });
-      if (!row) return res.status(404).json({ error: 'Not found' });
-
-      let images = [];
-      try {
-        images = JSON.parse(row.img);
-        if (!Array.isArray(images)) images = [row.img];
-      } catch (e) {
-        images = [row.img];
+    } else {
+      if (query.toLowerCase().includes("insert") || query.toLowerCase().includes("update") || query.toLowerCase().includes("delete")) {
+        db.run(query, params, function (err) {
+          if (err) reject(err);
+          else resolve({ lastID: this.lastID, changes: this.changes });
+        });
+      } else {
+        db.all(query, params, (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows);
+        });
       }
-      res.json({ ...row, desc: row.description, images });
-    });
-  } else {
-    // ... fallback remains same
-    const fs = require('fs');
-    const path = require('path');
-    const jsonPath = path.join(__dirname, 'public', 'data', 'products.json');
-    try {
-      const raw = fs.readFileSync(jsonPath, 'utf8');
-      const products = JSON.parse(raw);
-      const product = products.find(p => p.id === id);
-      if (!product) return res.status(404).json({ error: 'Not found' });
-      res.json(product);
-    } catch (err) {
-      res.status(500).json({ error: 'Products not available' });
     }
-  }
-});
+  });
+};
 
-// Middleware to verify JWT token
+// ---------------- JWT MIDDLEWARE ----------------
 const verifyToken = (req, res, next) => {
-  const token = req.headers['authorization'];
-  if (!token) return res.status(403).json({ error: 'No token provided' });
+  const header = req.headers.authorization;
+  if (!header) return res.status(403).json({ error: "No token provided" });
 
-  jwt.verify(token.split(' ')[1], JWT_SECRET, (err, decoded) => {
-    if (err) return res.status(401).json({ error: 'Unauthorized' });
+  const token = header.split(" ")[1];
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(401).json({ error: "Unauthorized" });
     req.userId = decoded.id;
     next();
   });
 };
 
-// Admin Login Route
-app.post('/api/admin/login', (req, res) => {
+// ---------------- ADMIN LOGIN ----------------
+app.post("/api/admin/login", (req, res) => {
   const { username, password } = req.body;
-  if (!db) return res.status(500).json({ error: 'Database not configured' });
+  if (!username || !password) return res.status(400).json({ error: "Username and password required" });
 
-  db.get('SELECT * FROM admins WHERE username = ?', [username], (err, admin) => {
-    if (err) return res.status(500).json({ error: 'Database error' });
-    if (!admin) return res.status(401).json({ error: 'Invalid username or password' });
+  const query = "SELECT * FROM admins WHERE username = ?";
 
-    const passwordIsValid = bcrypt.compareSync(password, admin.password_hash);
-    if (!passwordIsValid) return res.status(401).json({ error: 'Invalid username or password' });
+  const handleLogin = async (err, row) => {
+    if (err) return res.status(500).json({ error: "Server error" });
+    if (!row || !row.password_hash) return res.status(401).json({ error: "Invalid credentials" });
 
-    const token = jwt.sign({ id: admin.id, username: admin.username }, JWT_SECRET, { expiresIn: '8h' });
-    res.json({ token, username: admin.username });
-  });
-});
+    try {
+      const cleanPassword = password.trim();
+      const hash = row.password_hash.trim();
 
-// Admin Product CRUD APIs
-app.post('/api/admin/products', verifyToken, (req, res) => {
-  const { name, price, description, img } = req.body;
-  if (!name || price == null) return res.status(400).json({ error: 'Name and price are required' });
-  if (!db) return res.status(500).json({ error: 'Action unavailable; Database not configured' });
+      const isMatch = await bcrypt.compare(cleanPassword, hash);
+      if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
 
-  const stmt = db.prepare('INSERT INTO products (name, price, description, img) VALUES (?, ?, ?, ?)');
-  stmt.run(name, price, description || '', img || '', function (err) {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json({ success: true, id: this.lastID, name: name, price: price, desc: description, img: img });
-  });
-  stmt.finalize();
-});
+      const token = jwt.sign({ id: row.id }, JWT_SECRET, { expiresIn: "8h" });
+      res.json({ token, username: row.username });
+    } catch (bcryptErr) {
+      console.error("Bcrypt error:", bcryptErr);
+      res.status(500).json({ error: "Server error" });
+    }
+  };
 
-app.put('/api/admin/products/:id', verifyToken, (req, res) => {
-  const id = Number(req.params.id);
-  const { name, price, description, img } = req.body;
-  if (!db) return res.status(500).json({ error: 'Action unavailable; Database not configured' });
-
-  const stmt = db.prepare('UPDATE products SET name = ?, price = ?, description = ?, img = ? WHERE id = ?');
-  stmt.run(name, price, description || '', img || '', id, function (err) {
-    if (err) return res.status(500).json({ error: err.message });
-    if (this.changes === 0) return res.status(404).json({ error: 'Product not found' });
-    res.json({ success: true, id, name: name, price: price, desc: description, img: img });
-  });
-  stmt.finalize();
-});
-
-app.delete('/api/admin/products/:id', verifyToken, (req, res) => {
-  const id = Number(req.params.id);
-  if (!db) return res.status(500).json({ error: 'Action unavailable; Database not configured' });
-  db.run('DELETE FROM products WHERE id = ?', [id], function (err) {
-    if (err) return res.status(500).json({ error: err.message });
-    if (this.changes === 0) return res.status(404).json({ error: 'Product not found' });
-    res.json({ success: true, message: 'Product deleted successfully' });
-  });
-});
-
-// Orders API - store into SQLite if possible, else return success and echo
-app.post('/api/orders', (req, res) => {
-  const { name, phone, address, notes, items, total } = req.body;
-  if (!name || !phone || !address || !items) return res.status(400).json({ error: 'Missing fields' });
-
-  if (db) {
-    const stmt = db.prepare('INSERT INTO orders (customer_name, phone, address, notes, items_json, total, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)');
-    const itemsJson = JSON.stringify(items);
-    const created = new Date().toISOString();
-    stmt.run(name, phone, address, notes || '', itemsJson, total || 0, created, function (err) {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json({ success: true, orderId: this.lastID });
-    });
-    stmt.finalize();
+  if (isProd) {
+    db.query(query, [username], (err, results) => handleLogin(err, results[0]));
   } else {
-    // fallback: accept and echo
-    res.json({ success: true, order: { name, phone, address, notes, items, total } });
+    db.get(query, [username], handleLogin);
   }
 });
 
-// Admin Analytics API
-app.get('/api/admin/stats', verifyToken, (req, res) => {
-  if (!db) return res.status(500).json({ error: 'Database not configured' });
+// ---------------- PRODUCTS API ----------------
 
-  const stats = {};
-  db.get('SELECT COUNT(*) as count FROM products', (err, row) => {
-    stats.totalProducts = row ? row.count : 0;
-    db.get('SELECT COUNT(*) as count, SUM(total) as revenue FROM orders', (err, row) => {
-      stats.totalOrders = row ? row.count : 0;
-      stats.totalRevenue = row ? row.revenue : 0;
-      res.json(stats);
+// GET PRODUCTS
+app.get("/api/products", (req, res) => {
+  const query = "SELECT * FROM products ORDER BY id DESC";
+
+  if (isProd) {
+    db.query(query, (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      const formatted = rows.map((p) => ({
+        ...p,
+        images: p.img ? p.img.split(",").filter(img => img) : []
+      }));
+      res.json(formatted);
     });
-  });
+  } else {
+    db.all(query, (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      const formatted = rows.map((p) => ({
+        ...p,
+        images: p.img ? p.img.split(",").filter(img => img) : []
+      }));
+      res.json(formatted);
+    });
+  }
 });
 
-// Admin Orders API
-app.get('/api/admin/orders', verifyToken, (req, res) => {
-  if (!db) return res.status(500).json({ error: 'Database not configured' });
-  db.all('SELECT * FROM orders ORDER BY created_at DESC', (err, rows) => {
+// ADD PRODUCT (MULTIPLE IMAGES)
+app.post("/api/admin/products", verifyToken, upload.array("images", 4), (req, res) => {
+  const { name, price, description } = req.body;
+
+  console.log("=== POST /api/admin/products ===");
+  console.log("Body:", { name, price, description });
+  console.log("Files received:", req.files?.length || 0);
+  console.log("Files:", req.files);
+
+  if (!name || !price) return res.status(400).json({ error: "Name and price required" });
+
+  // Join all filenames with comma
+  const filenames = req.files ? req.files.map(f => f.filename).join(",") : "";
+
+  console.log("Filenames to save:", filenames);
+
+  const query = "INSERT INTO products (name, price, description, img) VALUES (?, ?, ?, ?)";
+
+  if (isProd) {
+    db.query(query, [name, price, description || "", filenames], function (err) {
+      if (err) {
+        console.error("DB error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+      console.log("Product saved with ID:", this.insertId);
+      res.json({ success: true, id: this.insertId });
+    });
+  } else {
+    db.run(query, [name, price, description || "", filenames], function (err) {
+      if (err) {
+        console.error("DB error:", err);
+        return res.status(500).json({ error: err.message });
+      }
+      console.log("Product saved with ID:", this.lastID);
+      res.json({ success: true, id: this.lastID });
+    });
+  }
+});
+
+// UPDATE PRODUCT (MULTIPLE IMAGES)
+app.put("/api/admin/products/:id", verifyToken, upload.array("images", 4), (req, res) => {
+  const id = req.params.id;
+  const { name, price, description } = req.body;
+
+  const selectQuery = "SELECT img FROM products WHERE id = ?";
+
+  const handleUpdate = (err, row) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json(rows.map(r => ({ ...r, items: JSON.parse(r.items_json) })));
-  });
+    if (!row) return res.status(404).json({ error: "Product not found" });
+
+    let newImages = row.img || "";
+
+    // If new images are uploaded, replace old ones
+    if (req.files && req.files.length > 0) {
+      // Delete old image files
+      if (row.img) {
+        const oldImages = row.img.split(",").filter(img => img);
+        oldImages.forEach(img => {
+          const oldPath = path.join(uploadDir, img);
+          try {
+            if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+          } catch (e) {
+            console.error("Error deleting old image:", e);
+          }
+        });
+      }
+      // Set new images
+      newImages = req.files.map(f => f.filename).join(",");
+    }
+
+    const updateQuery = "UPDATE products SET name=?, price=?, description=?, img=? WHERE id=?";
+
+    if (isProd) {
+      db.query(updateQuery, [name, price, description || "", newImages, id], function (err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ success: true });
+      });
+    } else {
+      db.run(updateQuery, [name, price, description || "", newImages, id], function (err) {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ success: true });
+      });
+    }
+  };
+
+  if (isProd) {
+    db.query(selectQuery, [id], (err, results) => handleUpdate(err, results[0]));
+  } else {
+    db.get(selectQuery, [id], handleUpdate);
+  }
 });
 
-// Admin Settings - Change Password
-app.post('/api/admin/change-password', verifyToken, (req, res) => {
-  const { currentPassword, newPassword } = req.body;
-  if (!db) return res.status(500).json({ error: 'Database not configured' });
+// DELETE PRODUCT
+app.delete("/api/admin/products/:id", verifyToken, (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id)) return res.status(400).json({ error: "Invalid product ID" });
 
-  db.get('SELECT * FROM admins WHERE id = ?', [req.userId], (err, admin) => {
-    if (err || !admin) return res.status(404).json({ error: 'Admin not found' });
+  console.log("Attempting to delete product ID:", id);
 
-    const passwordIsValid = bcrypt.compareSync(currentPassword, admin.password_hash);
-    if (!passwordIsValid) return res.status(401).json({ error: 'Current password incorrect' });
+  const selectQuery = "SELECT img FROM products WHERE id = ?";
 
-    const newHash = bcrypt.hashSync(newPassword, 10);
-    db.run('UPDATE admins SET password_hash = ? WHERE id = ?', [newHash, req.userId], (err) => {
-      if (err) return res.status(500).json({ error: 'Failed to update password' });
-      res.json({ success: true, message: 'Password updated successfully' });
-    });
-  });
+  const handleDelete = (err, row) => {
+    if (err) {
+      console.error("DB error:", err);
+      return res.status(500).json({ error: "Server error" });
+    }
+
+    console.log("Row found:", row);
+
+    if (!row) return res.status(404).json({ error: "Product not found" });
+
+    // Delete all image files
+    if (row.img) {
+      const images = row.img.split(",").filter(img => img);
+      images.forEach(img => {
+        const filePath = path.join(uploadDir, img);
+        try {
+          if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        } catch (fsErr) {
+          console.error("Error deleting image file:", fsErr);
+        }
+      });
+    }
+
+    // Delete the product row
+    const deleteQuery = "DELETE FROM products WHERE id = ?";
+
+    if (isProd) {
+      db.query(deleteQuery, [id], function (err) {
+        if (err) {
+          console.error("DB delete error:", err);
+          return res.status(500).json({ error: err.message });
+        }
+        console.log(`Product ID ${id} deleted successfully`);
+        res.json({ success: true });
+      });
+    } else {
+      db.run(deleteQuery, [id], function (err) {
+        if (err) {
+          console.error("DB delete error:", err);
+          return res.status(500).json({ error: err.message });
+        }
+        console.log(`Product ID ${id} deleted successfully`);
+        res.json({ success: true });
+      });
+    }
+  };
+
+  if (isProd) {
+    db.query(selectQuery, [id], (err, results) => handleDelete(err, results[0]));
+  } else {
+    db.get(selectQuery, [id], handleDelete);
+  }
 });
 
-// Fallback for favicon.ico
-app.get('/favicon.ico', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'favicon.png'));
-});
-
-// Serve frontend AFTER API routes so API endpoints take priority
-app.use(express.static('public'));
-
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+// ---------------- START SERVER ----------------
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

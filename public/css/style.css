@@ -14,11 +14,14 @@
   --accent: #00bac6;
   /* Lenskart-ish Teal / Cyan for primary actions */
   --accent-hover: #009da8;
-  --bg-page: #ffffff;
-  --bg-light: #f4f4f4;
+  --bg-page: #fafbfc;
+  /* Soft Off-White */
+  --bg-light: #f0f2f5;
+  /* Adjusted light gray */
   --text-main: #111111;
   --text-muted: #666666;
-  --border-color: #e0e0e0;
+  --border-color: #e8eaed;
+  /* Slightly warmer border */
   --white: #ffffff;
 
   /* Spacing */
@@ -117,9 +120,9 @@ button {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid #f0f0f0;
   height: 80px;
   display: flex;
   align-items: center;
@@ -222,9 +225,10 @@ button {
 .hero {
   position: relative;
   width: 100%;
-  background-color: #f0f2f5;
+  background-color: var(--white);
   overflow: hidden;
   padding: 60px 0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .hero-container {
@@ -340,20 +344,21 @@ button {
 
 .category-card {
   background: var(--white);
-  border: 1px solid var(--border-color);
+  border: 1px solid #f0f0f0;
   padding: 30px 20px;
   text-align: center;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .category-card:hover,
 .category-card.active {
   border-color: var(--accent) !important;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 8px 24px rgba(0, 186, 198, 0.12);
   transform: translateY(-5px);
-  background: #f0fbff;
+  background: var(--white);
 }
 
 .category-card.active span {
@@ -375,7 +380,7 @@ button {
    PRODUCTS GRID
 =========================== */
 .products-section {
-  background: var(--white);
+  background: var(--bg-page);
 }
 
 .product-grid {
@@ -386,52 +391,62 @@ button {
   margin: 0 auto;
 }
 
-/* PREMIUM PRODUCT CARD */
+/* PREMIUM PRODUCT CARD — MODERN & SLEEK */
 .product-card {
   background: var(--white);
-  border-radius: 0;
-  /* Cleaner look */
+  border-radius: 16px;
   position: relative;
-  transition: transform 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .product-card:hover {
-  /* Simple lift, no heavy border */
-  transform: translateY(-4px);
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  border-color: #e8eaed;
 }
 
 .product-image-wrap {
   position: relative;
-  background: #f9f9f9;
+  background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
   overflow: hidden;
-  height: 320px;
+  height: 360px;
   width: 100%;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 0;
+  margin: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .product-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Important */
-  transition: transform 0.4s ease;
+  width: 95%;
+  height: 95%;
+  object-fit: contain;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  padding: 20px;
 }
 
 .product-image-wrap:hover .product-image {
-  transform: scale(1.05);
-  /* Slight zoom on hover */
+  transform: scale(1.08);
 }
 
 /* Thumbnails on Card */
 .product-thumbnails {
   display: flex;
-  gap: 8px;
-  padding: 12px 0;
+  gap: 10px;
+  padding: 16px 20px;
   overflow-x: auto;
   scrollbar-width: none;
+  background: #f8f9fa;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .product-thumbnails::-webkit-scrollbar {
@@ -439,55 +454,70 @@ button {
 }
 
 .card-thumb {
-  width: 44px;
-  height: 44px;
-  object-fit: cover;
-  border-radius: 4px;
-  border: 1px solid transparent;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 2.5px solid #e8e8e8;
   cursor: pointer;
   opacity: 0.7;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  padding: 4px;
+  background: white;
 }
 
 .card-thumb:hover,
 .card-thumb.active {
   opacity: 1;
-  border-color: var(--primary);
+  border-color: var(--accent);
   transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 186, 198, 0.25);
 }
 
 .product-info {
-  padding: 10px 0;
+  padding: 20px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .product-info h3 {
   font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 4px;
+  font-weight: 700;
+  margin-bottom: 12px;
   color: var(--text-main);
-  white-space: nowrap;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .product-info .price {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-main);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
 }
 
 /* Overlay button on card (hidden by default, shows on hover for desktop) */
 .product-overlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 16px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  width: auto;
+  padding: 0;
+  background: transparent;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  gap: 10px;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s ease;
 }
 
 .product-card:hover .product-overlay {
@@ -495,21 +525,32 @@ button {
 }
 
 .overlay-actions button {
-  background: var(--white);
-  color: var(--primary);
-  padding: 10px 20px;
-  font-size: 12px;
+  background: var(--primary);
+  color: white;
+  padding: 12px 24px;
+  font-size: 13px;
   font-weight: 700;
-  border-radius: 4px;
-  box-shadow: var(--shadow-sm);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.overlay-actions button:hover {
+  background: var(--accent);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(0, 186, 198, 0.35);
 }
 
 /* ===========================
    FEATURES
 =========================== */
 .features-section {
-  background: var(--bg-light);
-  border-top: 1px solid var(--border-color);
+  background: var(--white);
+  border-top: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .features-grid {
@@ -549,7 +590,6 @@ button {
   background: #1a1a1a;
   color: #cccccc;
   padding: 50px 40px 20px;
-  /* Reduced from 80px */
 }
 
 .footer-inner {
@@ -558,9 +598,7 @@ button {
   display: grid;
   grid-template-columns: 1fr 0.8fr 0.8fr 1.2fr;
   gap: 40px;
-  /* Reduced from 60px */
   margin-bottom: 40px;
-  /* Reduced from 60px */
 }
 
 .footer-brand h4 {
@@ -640,7 +678,6 @@ button {
   position: fixed;
   inset: 0;
   background: rgba(255, 255, 255, 0.98);
-  /* White background for clean look */
   z-index: 2000;
   display: none;
   opacity: 0;
@@ -657,7 +694,6 @@ button {
   height: 100%;
   display: grid;
   grid-template-rows: auto 1fr auto auto;
-  /* Close btn, Viewer, Thumbs, Info */
   position: relative;
 }
 
@@ -682,7 +718,6 @@ button {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   align-items: center;
-  /* Center images vertically */
 }
 
 .slideshow-scroller::-webkit-scrollbar {
@@ -692,7 +727,6 @@ button {
 .slideshow-item {
   min-width: 100%;
   height: 80vh;
-  /* Don't take full height */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -704,7 +738,6 @@ button {
   max-height: 100%;
   object-fit: contain;
   box-shadow: var(--shadow-lg);
-  /* Elevate the product */
 }
 
 .slideshow-indicators {
@@ -750,7 +783,6 @@ button {
 
 /* ===========================
    CART DRAWER & UTILS 
-   (AGGRESSIVE OVERRIDE)
 =========================== */
 .cart-drawer {
   position: fixed;
@@ -760,7 +792,6 @@ button {
   max-width: 90vw;
   height: 100vh;
   background: #ffffff !important;
-  /* Nuclear Option: Override everything */
   z-index: 9999 !important;
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2) !important;
   transition: right 0.4s cubic-bezier(0.19, 1, 0.22, 1);
@@ -782,7 +813,6 @@ button {
   align-items: center;
   background: #ffffff !important;
   z-index: 10001;
-  /* Above drawer bg */
 }
 
 .cart-header h3 {
@@ -810,7 +840,6 @@ button {
   z-index: 10000;
 }
 
-/* Modern Cart Item Logic */
 .cart-item {
   display: grid;
   grid-template-columns: 70px 1fr auto;
@@ -903,7 +932,6 @@ button {
   color: var(--primary);
 }
 
-/* CART BUTTONS */
 .btn-checkout,
 .btn-whatsapp {
   width: 100%;
@@ -962,13 +990,11 @@ button {
   color: #15803d;
 }
 
-/* BACKDROP */
 .backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.6);
   z-index: 9998 !important;
-  /* Immediately below cart */
   display: none;
   backdrop-filter: blur(4px);
 }
@@ -977,13 +1003,11 @@ button {
   display: block;
 }
 
-/* CHECKOUT MODAL (Keep it functional) */
 .checkout-modal {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.8);
   z-index: 10002 !important;
-  /* Above everything */
   display: none;
   align-items: center;
   justify-content: center;
@@ -1012,7 +1036,6 @@ button {
   margin-bottom: 6px;
 }
 
-/* Checkout Form */
 .checkout-form {
   display: flex;
   flex-direction: column;
@@ -1059,7 +1082,6 @@ button {
   min-height: 80px;
 }
 
-/* Cart empty state */
 .cart-empty {
   display: flex;
   flex-direction: column;
@@ -1075,7 +1097,6 @@ button {
   margin-bottom: 16px;
 }
 
-/* Summary helpers */
 .summary-divider {
   height: 1px;
   background: var(--border-color);
@@ -1089,7 +1110,6 @@ button {
   margin-top: 4px;
 }
 
-/* TOASTS */
 .toasts {
   position: fixed;
   bottom: 30px;
@@ -1125,8 +1145,6 @@ button {
     transform: translateY(0);
   }
 }
-
-
 
 /* ===========================
    MOBILE MENU & RESPONSIVE
@@ -1197,7 +1215,6 @@ button {
 /* RESPONSIVE */
 @media(max-width: 768px) {
 
-  /* Hero */
   .hero-container {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -1223,7 +1240,6 @@ button {
     height: 350px;
   }
 
-  /* Navbar */
   .navbar {
     height: 70px;
   }
@@ -1264,7 +1280,6 @@ button {
     font-size: 9px;
   }
 
-  /* Grids */
   .section {
     padding: 60px 20px;
   }
@@ -1274,12 +1289,10 @@ button {
     gap: 20px;
   }
 
-  /* Products: 2 columns on mobile for "app-like" feel */
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     padding: 0 5px;
-    /* Tiny side padding for grid */
   }
 
   .product-image-wrap {
@@ -1311,9 +1324,6 @@ button {
     display: none;
   }
 
-  /* No hover overlay on mobile */
-
-  /* Footer */
   .footer-inner {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -1323,7 +1333,6 @@ button {
     padding: 60px 20px 20px;
   }
 
-  /* Cart */
   .cart-drawer {
     width: 100%;
     max-width: 100%;
@@ -1334,7 +1343,6 @@ button {
     right: 0;
   }
 
-  /* Categories */
   .categories-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -1353,7 +1361,6 @@ button {
     font-size: 12px;
   }
 
-  /* Modal */
   .checkout-card {
     width: 90vw;
     padding: 20px;
@@ -1373,7 +1380,6 @@ button {
     font-size: 14px;
   }
 
-  /* Slightly larger for readability on small screens if single col, keeping 2 col for now */
   .hero-cta-group {
     flex-direction: column;
   }
@@ -1383,9 +1389,6 @@ button {
   }
 }
 
-/* ===========================
-   FLOATING CART FAB
-=========================== */
 .floating-cart-fab {
   position: fixed;
   bottom: 28px;
@@ -1403,7 +1406,6 @@ button {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  position: fixed;
 }
 
 .floating-cart-fab:hover {
@@ -1428,9 +1430,6 @@ button {
   padding: 0 4px;
 }
 
-/* ===========================
-   PRODUCT CARD — ADD TO CART BTN
-=========================== */
 .product-info-row {
   display: flex;
   align-items: center;
@@ -1458,14 +1457,12 @@ button {
   transform: scale(1.12);
 }
 
-/* Cart item line total */
 .cart-item-price {
   font-size: 13px;
   color: var(--text-muted);
   margin: 4px 0 0;
 }
 
-/* Load error */
 .load-error {
   grid-column: 1 / -1;
   text-align: center;
@@ -1473,9 +1470,6 @@ button {
   color: #ef4444;
 }
 
-/* ===========================
-   SKELETON LOADERS
-=========================== */
 @keyframes shimmer {
   0% {
     background-position: -600px 0;
@@ -1514,7 +1508,6 @@ button {
   margin-bottom: 4px;
 }
 
-/* Smaller skeleton image on mobile */
 @media (max-width: 768px) {
   .skeleton-img {
     height: 200px;
