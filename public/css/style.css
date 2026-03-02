@@ -220,6 +220,75 @@ button {
 }
 
 /* ===========================
+   MOBILE BOTTOM NAVBAR (APP-LIKE)
+=========================== */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--white);
+  border-top: 1px solid #f0f0f0;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  z-index: 999;
+  padding: 0;
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+.mobile-bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.mobile-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  gap: 4px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.mobile-nav-item:hover,
+.mobile-nav-item.active {
+  color: var(--accent);
+}
+
+.mobile-nav-icon {
+  font-size: 20px;
+}
+
+.mobile-nav-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mobile-nav-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--accent);
+  color: white;
+  font-size: 9px;
+  padding: 2px 4px;
+  border-radius: 8px;
+  font-weight: 700;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* ===========================
    HERO SECTION
 =========================== */
 .hero {
@@ -1227,21 +1296,41 @@ button {
   }
 
   .hero-title {
-    font-size: 40px;
-    margin-bottom: 16px;
+    font-size: 32px;
+    margin-bottom: 12px;
+    line-height: 1.2;
   }
 
   .hero-subtitle {
-    font-size: 16px;
-    margin-bottom: 24px;
+    font-size: 14px;
+    margin-bottom: 16px;
   }
 
   .hero-image-wrapper {
-    height: 350px;
+    display: none;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .hero {
+    padding: 30px 0;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 12px 20px;
   }
 
   .navbar {
-    height: 70px;
+    display: none;
   }
 
   .navbar-content {
@@ -1261,8 +1350,7 @@ button {
   }
 
   .nav-toggle {
-    display: block;
-    margin-left: 10px;
+    display: none;
   }
 
   .nav-actions {
@@ -1280,27 +1368,48 @@ button {
     font-size: 9px;
   }
 
+  /* MOBILE BOTTOM NAVIGATION BAR */
+  .mobile-bottom-nav {
+    display: flex;
+  }
+
+  /* Add bottom padding to avoid content overlap with bottom nav */
+  main,
   .section {
-    padding: 60px 20px;
+    margin-bottom: 20px;
+  }
+
+  .cart-drawer {
+    bottom: 60px;
+  }
+
+  .floating-cart-fab {
+    bottom: 80px !important;
+  }
+
+  .section {
+    padding: 40px 16px;
   }
 
   .features-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 16px;
   }
 
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    padding: 0 5px;
+    padding: 0;
   }
 
   .product-image-wrap {
-    height: 200px;
+    height: 160px;
+    margin: 8px;
+    border-radius: 12px;
   }
 
   .product-info {
-    padding: 8px 4px;
+    padding: 8px 8px;
   }
 
   .product-info h3 {
@@ -1308,6 +1417,7 @@ button {
     white-space: normal;
     height: 32px;
     overflow: hidden;
+    margin-bottom: 4px;
   }
 
   .product-info .price {
@@ -1315,9 +1425,13 @@ button {
     margin-top: 4px;
   }
 
+  .product-thumbnails {
+    padding: 0 8px 8px 8px;
+  }
+
   .card-thumb {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
   }
 
   .product-overlay {
