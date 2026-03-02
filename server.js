@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
 // ---------------- UPLOAD FOLDER ----------------
-const uploadDir = path.join(__dirname, "public/images/products");
+const uploadDir = path.join(__dirname, "../public_html/images/products");
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
 // ---------------- MULTER CONFIG ----------------
