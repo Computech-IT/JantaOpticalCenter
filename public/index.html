@@ -105,7 +105,6 @@
         -->
         <div class="hero-cta-group">
           <a href="#collection" class="btn btn-primary">Shop Now</a>
-          <!-- <a href="#categories" class="btn btn-secondary">Explore Shapes</a> -->
         </div>
       </div>
       <div class="hero-image-wrapper">
@@ -154,342 +153,7 @@ SHAPES -->
       <h3>Trending Now</h3>
       <p>Our most popular picks for this season</p>
     </div>
-    <!-- 
-  ADD THIS SECTION INSIDE THE <section class="section products-section" id="collection">
-  BEFORE <main id="productGrid" class="product-grid"></main>
--->
 
-    <!-- SEARCH AND FILTER BAR -->
-    <div style="display: flex; gap: 12px; margin-bottom: 24px; align-items: center; flex-wrap: wrap;">
-      <!-- SEARCH INPUT -->
-      <div style="flex: 1; min-width: 200px;">
-        <input type="text" id="filterSearchInput" placeholder="Search products..."
-          style="width: 100%; padding: 12px 16px; border: 1px solid #e8eaed; border-radius: 8px; font-size: 14px; font-family: inherit; background: var(--white); transition: all 0.2s;" />
-      </div>
-
-      <!-- SORT DROPDOWN (Desktop) -->
-      <select id="filterSort"
-        style="padding: 12px 12px; border: 1px solid #e8eaed; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; background: var(--white); min-width: 140px; display: none;">
-        <option value="newest">Newest</option>
-        <option value="name">A - Z</option>
-        <option value="price-low">Price: Low to High</option>
-        <option value="price-high">Price: High to Low</option>
-      </select>
-
-      <!-- FILTER BUTTON (Mobile) -->
-      <button id="filterOpenBtn" onclick="productFilter.openFilterPanel()"
-        style="padding: 12px 16px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; display: none; gap: 6px; align-items: center; transition: all 0.2s;">
-        <i class="fa-solid fa-sliders"></i> Filter
-      </button>
-
-      <!-- DESKTOP FILTER TOGGLE -->
-      <button id="filterToggleBtn"
-        onclick="document.getElementById('filterPanelDesktop').style.display = document.getElementById('filterPanelDesktop').style.display === 'none' ? 'block' : 'none'"
-        style="padding: 12px 16px; background: #f8f9fa; color: #111; border: 1px solid #e8eaed; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s; display: none;">
-        <i class="fa-solid fa-sliders"></i> Filters
-      </button>
-    </div>
-
-    <!-- FILTER SUMMARY -->
-    <div id="filterSummary" style="font-size: 13px; color: #666; margin-bottom: 16px; text-align: center;">
-      Showing products
-    </div>
-
-    <!-- DESKTOP FILTER PANEL (Collapsible) -->
-    <div id="filterPanelDesktop"
-      style="background: var(--white); border: 1px solid #f0f0f0; border-radius: 12px; padding: 20px; margin-bottom: 24px; display: none;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-        <!-- PRICE RANGE FILTER -->
-        <div>
-          <h4
-            style="font-size: 13px; font-weight: 700; color: #111; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
-            Price Range</h4>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="number" id="filterMinPrice" placeholder="Min" value="0"
-              style="width: 100%; padding: 8px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 13px;" />
-            <span style="color: #999;">—</span>
-            <input type="number" id="filterMaxPrice" placeholder="Max"
-              style="width: 100%; padding: 8px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 13px;" />
-          </div>
-        </div>
-
-        <!-- SORT DROPDOWN (Desktop) -->
-        <div>
-          <h4
-            style="font-size: 13px; font-weight: 700; color: #111; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
-            Sort By</h4>
-          <select id="filterSortDesktop"
-            style="width: 100%; padding: 8px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 13px; cursor: pointer;">
-            <option value="newest">Newest First</option>
-            <option value="name">Name (A - Z)</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-          </select>
-        </div>
-
-        <!-- CLEAR BUTTON -->
-        <div style="display: flex; align-items: flex-end;">
-          <button id="filterClearBtn" onclick="productFilter.clearFilters()"
-            style="width: 100%; padding: 8px 16px; background: #f0f0f0; color: #111; border: none; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s;">
-            Clear All
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- MOBILE FILTER PANEL (Drawer Style) -->
-    <div id="filterPanel"
-      style="position: fixed; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); z-index: 9950; display: none; opacity: 0; transition: opacity 0.3s;">
-      <div id="filterPanelContent"
-        style="position: fixed; left: 0; bottom: 0; right: 0; background: var(--white); border-radius: 16px 16px 0 0; padding: 20px; max-height: 80vh; overflow-y: auto; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);">
-        <!-- Filter Header -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <h3 style="font-size: 18px; font-weight: 700; color: #111;">Filters</h3>
-          <button id="filterCloseBtn"
-            style="background: none; border: none; font-size: 24px; cursor: pointer; color: #999;">
-            ×
-          </button>
-        </div>
-
-        <!-- Search -->
-        <div style="margin-bottom: 20px;">
-          <label
-            style="font-size: 13px; font-weight: 700; color: #111; display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Search</label>
-          <input type="text" id="filterSearchInputMobile" placeholder="Search products..."
-            style="width: 100%; padding: 10px 12px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 14px;" />
-        </div>
-
-        <!-- Price Filter -->
-        <div style="margin-bottom: 20px;">
-          <label
-            style="font-size: 13px; font-weight: 700; color: #111; display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Price
-            Range</label>
-          <div style="display: flex; gap: 8px;">
-            <input type="number" id="filterMinPriceMobile" placeholder="Min" value="0"
-              style="width: 50%; padding: 10px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 13px;" />
-            <input type="number" id="filterMaxPriceMobile" placeholder="Max"
-              style="width: 50%; padding: 10px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 13px;" />
-          </div>
-        </div>
-
-        <!-- Sort -->
-        <div style="margin-bottom: 20px;">
-          <label
-            style="font-size: 13px; font-weight: 700; color: #111; display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Sort
-            By</label>
-          <select id="filterSortMobile"
-            style="width: 100%; padding: 10px; border: 1px solid #e8eaed; border-radius: 6px; font-size: 13px; cursor: pointer;">
-            <option value="newest">Newest First</option>
-            <option value="name">Name (A - Z)</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-          </select>
-        </div>
-
-        <!-- Action Buttons -->
-        <div style="display: flex; gap: 10px; padding-top: 10px; border-top: 1px solid #f0f0f0;">
-          <button id="filterClearBtnMobile" onclick="productFilter.clearFilters()"
-            style="flex: 1; padding: 12px; background: #f0f0f0; color: #111; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
-            Clear
-          </button>
-          <button onclick="productFilter.closeFilterPanel()"
-            style="flex: 1; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
-            Apply
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- JAVASCRIPT TO SYNC MOBILE AND DESKTOP FILTERS -->
-    <script>
-      // Wait for ProductFilter to be initialized
-      document.addEventListener('DOMContentLoaded', function () {
-        // Sync search input between mobile and desktop
-        const searchInput = document.getElementById('filterSearchInput');
-        const searchInputMobile = document.getElementById('filterSearchInputMobile');
-
-        if (searchInput && searchInputMobile) {
-          searchInput.addEventListener('input', function () {
-            searchInputMobile.value = this.value;
-          });
-          searchInputMobile.addEventListener('input', function () {
-            searchInput.value = this.value;
-            if (productFilter) {
-              productFilter.filters.searchTerm = this.value.toLowerCase();
-              productFilter.applyFilters();
-            }
-          });
-        }
-
-        // Sync price inputs
-        const minPrice = document.getElementById('filterMinPrice');
-        const maxPrice = document.getElementById('filterMaxPrice');
-        const minPriceMobile = document.getElementById('filterMinPriceMobile');
-        const maxPriceMobile = document.getElementById('filterMaxPriceMobile');
-
-        const syncPrices = () => {
-          if (minPrice && minPriceMobile) minPriceMobile.value = minPrice.value;
-          if (maxPrice && maxPriceMobile) maxPriceMobile.value = maxPrice.value;
-        };
-
-        const syncPricesMobile = () => {
-          if (minPrice && minPriceMobile) minPrice.value = minPriceMobile.value;
-          if (maxPrice && maxPriceMobile) maxPrice.value = maxPriceMobile.value;
-        };
-
-        if (minPrice) minPrice.addEventListener('change', syncPrices);
-        if (maxPrice) maxPrice.addEventListener('change', syncPrices);
-        if (minPriceMobile) minPriceMobile.addEventListener('change', syncPricesMobile);
-        if (maxPriceMobile) maxPriceMobile.addEventListener('change', syncPricesMobile);
-
-        // Sync sort
-        const sortSelect = document.getElementById('filterSort');
-        const sortSelectDesktop = document.getElementById('filterSortDesktop');
-        const sortSelectMobile = document.getElementById('filterSortMobile');
-
-        if (sortSelectDesktop) {
-          sortSelectDesktop.addEventListener('change', function () {
-            document.getElementById('filterSort').value = this.value;
-            if (sortSelectMobile) sortSelectMobile.value = this.value;
-            if (productFilter) {
-              productFilter.filters.sortBy = this.value;
-              productFilter.applyFilters();
-            }
-          });
-        }
-
-        if (sortSelectMobile) {
-          sortSelectMobile.addEventListener('change', function () {
-            document.getElementById('filterSort').value = this.value;
-            if (sortSelectDesktop) sortSelectDesktop.value = this.value;
-            if (productFilter) {
-              productFilter.filters.sortBy = this.value;
-              productFilter.applyFilters();
-            }
-          });
-        }
-
-        // Show/hide filter panel
-        const filterPanel = document.getElementById('filterPanel');
-        const filterPanelContent = document.getElementById('filterPanelContent');
-        const filterCloseBtn = document.getElementById('filterCloseBtn');
-
-        if (filterPanel && filterPanelContent) {
-          filterPanel.addEventListener('click', function (e) {
-            if (e.target === this) {
-              productFilter.closeFilterPanel();
-            }
-          });
-
-          filterCloseBtn.addEventListener('click', function () {
-            productFilter.closeFilterPanel();
-          });
-        }
-
-        // Update ProductFilter methods for panel opening/closing
-        if (window.productFilter) {
-          const originalOpen = window.productFilter.openFilterPanel.bind(window.productFilter);
-          const originalClose = window.productFilter.closeFilterPanel.bind(window.productFilter);
-
-          window.productFilter.openFilterPanel = function () {
-            if (filterPanel) {
-              filterPanel.style.display = 'block';
-              setTimeout(() => {
-                filterPanel.style.opacity = '1';
-                filterPanelContent.style.transform = 'translateY(0)';
-              }, 10);
-            }
-          };
-
-          window.productFilter.closeFilterPanel = function () {
-            if (filterPanel) {
-              filterPanel.style.opacity = '0';
-              filterPanelContent.style.transform = 'translateY(100%)';
-              setTimeout(() => {
-                filterPanel.style.display = 'none';
-              }, 300);
-            }
-          };
-        }
-      });
-    </script>
-
-    <!-- RESPONSIVE STYLES FOR FILTER UI -->
-    <style>
-      @media (max-width: 768px) {
-
-        /* Hide desktop elements */
-        #filterSort {
-          display: none !important;
-        }
-
-        #filterToggleBtn {
-          display: none !important;
-        }
-
-        #filterPanelDesktop {
-          display: none !important;
-        }
-
-        /* Show mobile elements */
-        #filterOpenBtn {
-          display: flex !important;
-        }
-
-        /* Mobile filter panel animation */
-        #filterPanel.open {
-          display: block !important;
-          opacity: 1 !important;
-        }
-
-        #filterPanel.open #filterPanelContent {
-          transform: translateY(0) !important;
-        }
-      }
-
-      @media (min-width: 769px) {
-
-        /* Show desktop sort */
-        #filterSort {
-          display: inline-block !important;
-        }
-
-        #filterToggleBtn {
-          display: inline-block !important;
-        }
-
-        /* Hide mobile filter button */
-        #filterOpenBtn {
-          display: none !important;
-        }
-
-        /* Hide mobile filter panel */
-        #filterPanel {
-          display: none !important;
-        }
-      }
-
-      /* Search input focus styles */
-      #filterSearchInput:focus,
-      #filterSearchInputMobile:focus {
-        border-color: var(--accent);
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(0, 186, 198, 0.1);
-      }
-
-      /* Sort/filter inputs hover */
-      #filterSort:hover,
-      #filterToggleBtn:hover,
-      #filterOpenBtn:hover {
-        background-color: #f0f0f0;
-      }
-
-      /* Clear button hover */
-      #filterClearBtn:hover,
-      #filterClearBtnMobile:hover {
-        background-color: #e0e0e0;
-      }
-    </style>
     <main id="productGrid" class="product-grid"></main>
   </section>
 
@@ -646,7 +310,7 @@ SHAPES -->
   </div>
 
   <script src="js/main.js"></script>
-  <script src="js/search.js"></script>
+
 
 
 
@@ -663,13 +327,13 @@ SHAPES -->
       <div class="mobile-nav-icon">🔍</div>
       <div class="mobile-nav-label">Search</div>
     </a>
-    <!--
+
     <a href="#" class="mobile-nav-item" id="mobileCartNav">
       <div class="mobile-nav-icon">🛒</div>
       <div class="mobile-nav-label">Cart</div>
       <div class="mobile-nav-badge" id="mobileCartBadge" style="display: none;">0</div>
     </a>
--->
+
     <a href="#" class="mobile-nav-item" id="mobileMenuNav">
       <div class="mobile-nav-icon">☰</div>
       <div class="mobile-nav-label">Menu</div>
@@ -786,8 +450,6 @@ SHAPES -->
       }
     }
   </style>
-
-
 </body>
 <script>
   document.getElementById('msg').addEventListener('click', function () {
