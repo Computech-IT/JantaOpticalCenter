@@ -97,7 +97,10 @@ const verifyToken = (req, res, next) => {
 
   const token = header.split(" ")[1];
   jwt.verify(token, JWT_SECRET, (err, decoded) => {
-    if (err) return res.status(401).json({ error: "Unauthorized" });
+    if (err) {
+      console.error("JWT Verification failed:", err.message);
+      return res.status(401).json({ error: "Unauthorized: Token invalid or expired" });
+    }
     req.userId = decoded.id;
     next();
   });
