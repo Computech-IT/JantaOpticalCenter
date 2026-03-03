@@ -50,10 +50,12 @@ if (isProd) {
   });
   db.connect((err) => {
     if (err) {
-      console.error("MySQL Connection Failed:", err);
-      process.exit(1);
+      console.error("MySQL Connection Failed (Critical):", err);
+      // Removed process.exit(1) to prevent 503 on temporary DB issues
+      // The app will stay alive and serve static content or return errors via APIs
+    } else {
+      console.log("Connected to MySQL");
     }
-    console.log("Connected to MySQL");
   });
 } else {
   const sqlite3 = require("sqlite3").verbose();

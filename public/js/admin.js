@@ -137,7 +137,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username: usernameInput, password: passwordInput })
             });
-            const data = await res.json();
+            const text = await res.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                data = { error: `Server Error (${res.status})` };
+            }
 
             if (!res.ok) {
                 showToast(data.error || "Login failed", "error");
@@ -186,7 +192,15 @@ document.addEventListener("DOMContentLoaded", () => {
         productGrid.innerHTML = "Loading...";
         try {
             const res = await fetch("/api/products");
-            const data = await res.json();
+            const text = await res.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                showToast(`Server Error (${res.status})`, "error");
+                productGrid.innerHTML = "Error loading products";
+                return;
+            }
             allProducts = data;
             renderProducts(allProducts);
         } catch {
@@ -432,7 +446,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: { Authorization: `Bearer ${token}` },
                 body: formData
             });
-            const data = await res.json();
+            const text = await res.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                data = { error: `Server Error (${res.status})` };
+            }
 
             console.log("Response status:", res.status);
             console.log("Response data:", data);
@@ -492,7 +512,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` }
             });
-            const data = await res.json();
+            const text = await res.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                data = { error: `Server Error (${res.status})` };
+            }
             if (!res.ok) {
                 showToast(data.error || "Delete failed", "error");
                 return;
