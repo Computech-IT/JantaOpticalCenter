@@ -4,10 +4,11 @@
   "description": "Janta Optical Center",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test tests/*.test.js",
     "download-images": "node scripts/download_images.js",
     "init-db": "node scripts/init_db.js",
     "start": "NODE_ENV=production node server.js",
+    "dev": "node server.js",
     "generate-sitemap-products": "node scripts/generate_sitemap_products.js",
     "build:css": "tailwindcss -i ./src/styles/tailwind.css -o ./public/css/tailwind.css --minify"
   },
@@ -25,15 +26,19 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
+    "compression": "^1.8.2",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.7.5",
+    "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.5",
     "multer": "^2.1.0",
     "mysql2": "^3.12.0",
     "nodemailer": "^7.0.13",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.23",

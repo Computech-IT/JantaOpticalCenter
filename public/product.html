@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Eyewear Details | Janta Optical Centre</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#111111" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="description" content="Customize your eyewear frame with precision anti-glare, blue-cut, or progressive lenses at Janta Optical Centre." />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    .pdp-container { max-width: 1200px; margin: 40px auto; padding: 0 24px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; }
+    .pdp-gallery { background: #fff; border: 1px solid var(--border-color); border-radius: 16px; padding: 24px; }
+    .pdp-main-img { width: 100%; height: 420px; object-fit: contain; margin-bottom: 16px; }
+    .pdp-thumbs { display: flex; gap: 12px; overflow-x: auto; }
+    .pdp-thumb { width: 72px; height: 72px; object-fit: contain; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; padding: 4px; background: #fff; }
+    .pdp-thumb.active { border-color: var(--accent); }
+    .pdp-info h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin: 10px 0 8px; }
+    .pdp-price { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin: 16px 0; }
+    .pdp-specs { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+    .pdp-specs td { padding: 10px 0; border-bottom: 1px solid #e2e8f0; }
+    .pdp-specs td:first-child { color: var(--text-muted); width: 40%; }
+    .pdp-lens-cards { display: grid; gap: 10px; margin: 16px 0 24px; }
+    .lens-option { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border: 1.5px solid #e2e8f0; border-radius: 10px; cursor: pointer; background: #fff; transition: 0.2s; }
+    .lens-option.selected { border-color: var(--accent); background: #f0fdff; }
+    .lens-option input { margin-right: 10px; }
+    .breadcrumb { max-width: 1200px; margin: 24px auto 0; padding: 0 24px; font-size: 13px; color: var(--text-muted); }
+    .breadcrumb a:hover { color: var(--primary); }
+    @media (max-width: 860px) { .pdp-container { grid-template-columns: 1fr; gap: 28px; } .pdp-main-img { height: 280px; } }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="navbar-content">
+      <a href="/" class="logo" aria-label="Janta Optical Centre Home">
+        <svg class="logo-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="6" cy="15" r="4"/><circle cx="18" cy="15" r="4"/>
+          <path d="M14 15a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M2.5 13 5 7c.7-1.3 1.4-2 3-2"/><path d="M21.5 13 19 7c-.7-1.3-1.5-2-3-2"/>
+        </svg>
+        <span class="logo-text">Janta Optical Centre</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <a href="/#collection">Shop All</a>
+        <a href="/account.html">My Account</a>
+        <a href="/about.html">About Us</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="/account.html" class="nav-search-btn" aria-label="My Account">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </a>
+        <a href="/#collection" class="nav-cart-btn" aria-label="Shop">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    <a href="/">Home</a> / <a href="/#collection">Collection</a> / <span id="pdpBreadcrumb">Frame</span>
+  </div>
+
+  <main class="pdp-container" id="pdpRoot">
+    <p>Loading eyewear details...</p>
+  </main>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <a href="/" class="mobile-nav-item active"><div class="mobile-nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="mobile-nav-label">Shop</div></a>
+    <a href="/#collection" class="mobile-nav-item"><div class="mobile-nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div><div class="mobile-nav-label">Browse</div></a>
+    <a href="/account.html" class="mobile-nav-item"><div class="mobile-nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="mobile-nav-label">Account</div></a>
+    <a href="/about.html" class="mobile-nav-item"><div class="mobile-nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><div class="mobile-nav-label">About</div></a>
+  </nav>
+
+  <script src="/js/product.js"></script>
+</body>
+
+</html>

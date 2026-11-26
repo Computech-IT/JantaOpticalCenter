@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Tax Invoice | Janta Optical Centre</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; background: #f8fafc; color: #0f172a; margin: 0; padding: 24px; }
+    .invoice-box { max-width: 800px; margin: 0 auto; background: #fff; padding: 36px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .inv-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0f172a; padding-bottom: 20px; margin-bottom: 24px; }
+    .inv-title h1 { margin: 0; font-size: 24px; }
+    .inv-meta { text-align: right; font-size: 14px; line-height: 1.6; }
+    .inv-addresses { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; font-size: 14px; line-height: 1.6; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 14px; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+    th { background: #f1f5f9; font-weight: 600; }
+    .text-right { text-align: right; }
+    .totals { max-width: 320px; margin-left: auto; font-size: 14px; }
+    .totals-row { display: flex; justify-content: space-between; padding: 6px 0; }
+    .totals-row.grand { font-size: 18px; font-weight: 700; border-top: 2px solid #0f172a; padding-top: 10px; margin-top: 6px; }
+    .actions { max-width: 800px; margin: 16px auto 0; display: flex; justify-content: space-between; }
+    .btn { padding: 10px 20px; border-radius: 8px; border: none; background: #0f172a; color: #fff; font-weight: 600; cursor: pointer; text-decoration: none; }
+    @media print { body { background: #fff; padding: 0; } .invoice-box { box-shadow: none; } .actions { display: none; } }
+  </style>
+</head>
+
+<body>
+  <div class="invoice-box" id="invoiceBox">
+    <p>Loading invoice...</p>
+  </div>
+  <div class="actions">
+    <a href="/" class="btn" style="background:#64748b;">Back to Store</a>
+    <button type="button" class="btn" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <script>
+    (async () => {
+      const box = document.getElementById("invoiceBox");
+      const params = new URLSearchParams(window.location.search);
+      const orderNumber = params.get("orderNumber");
+      const invoiceNumber = params.get("invoiceNumber");
+      const phone = params.get("phone");
+
+      function esc(s) {
+        return String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+      }
+
+      if (!orderNumber && !invoiceNumber) {
+        box.innerHTML = "<p>Missing orderNumber or invoiceNumber parameter.</p>";
+        return;
+      }
+
+      const apiUrl = invoiceNumber
+        ? `/api/admin/sales/${encodeURIComponent(invoiceNumber)}/invoice`
+        : `/api/orders/${encodeURIComponent(orderNumber)}/invoice?phone=${encodeURIComponent(phone || "")}`;
+
+      const res = await fetch(apiUrl, { credentials: "same-origin" });
+      const inv = await res.json();
+      if (!res.ok) {
+        box.innerHTML = `<p style="color:#dc2626;">${esc(inv.error || "Invoice not found")}</p>`;
+        return;
+      }
+
+      box.innerHTML = `
+        <div class="inv-header">
+          <div class="inv-title">
+            <h1>Janta Optical Centre</h1>
+            <p style="margin:4px 0 0;color:#475569;font-size:13px;">Pakyong, East Sikkim — 737106, India<br>GSTIN: Applied / Retail Optical Invoice</p>
+          </div>
+          <div class="inv-meta">
+            <strong>TAX INVOICE</strong><br>
+            Order #: <strong>${esc(inv.orderNumber)}</strong><br>
+            Date: ${esc(new Date(inv.createdAt).toLocaleDateString("en-IN"))}<br>
+            Status: ${esc(inv.status.toUpperCase())} (${esc(inv.paymentStatus.toUpperCase())})
+          </div>
+        </div>
+        <div class="inv-addresses">
+          <div>
+            <strong>Billed &amp; Shipped To:</strong><br>
+            ${esc(inv.customerName)}<br>
+            Phone: ${esc(inv.phone)}<br>
+            ${esc(inv.address)}
+          </div>
+          <div>
+            <strong>Payment Method:</strong><br>
+            ${esc(inv.paymentMethod.toUpperCase())}
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Item &amp; Lens Package</th>
+              <th class="text-right">Qty</th>
+              <th class="text-right">Unit Price</th>
+              <th class="text-right">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${inv.items.map(i => `
+              <tr>
+                <td><strong>${esc(i.name)}</strong><br><small style="color:#64748b">${esc(i.lensLabel || "Frame Only")}</small></td>
+                <td class="text-right">${Number(i.qty)}</td>
+                <td class="text-right">₹${Number(i.unitPrice).toLocaleString("en-IN")}</td>
+                <td class="text-right">₹${Number(i.lineTotal).toLocaleString("en-IN")}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+        <div class="totals">
+          <div class="totals-row"><span>Taxable Value (Excl. 12% GST)</span><span>₹${inv.gst.taxableValue.toLocaleString("en-IN")}</span></div>
+          <div class="totals-row"><span>CGST (6%)</span><span>₹${inv.gst.cgst.toLocaleString("en-IN")}</span></div>
+          <div class="totals-row"><span>SGST (6%)</span><span>₹${inv.gst.sgst.toLocaleString("en-IN")}</span></div>
+          <div class="totals-row"><span>Shipping</span><span>${inv.shippingFee === 0 ? "FREE" : "₹" + inv.shippingFee}</span></div>
+          <div class="totals-row grand"><span>Grand Total</span><span>₹${inv.total.toLocaleString("en-IN")}</span></div>
+        </div>
+      `;
+    })();
+  </script>
+</body>
+
+</html>

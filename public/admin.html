@@ -50,49 +50,45 @@
     </form>
   </section>
 
-  <!-- Dashboard Section -->
-  <section id="dashboard-section" class="dashboard hidden">
-    <!-- Sidebar -->
-    <aside class="sidebar glass-panel">
-      <div class="sidebar-header">
-        <div class="logo-icon"><i class="fa-solid fa-glasses"></i></div>
-        <h2>Admin Panel</h2>
-      </div>
-      <nav class="sidebar-nav">
-        <a href="#" class="nav-item active" id="nav-products"><i class="fa-solid fa-box-open"></i> Products</a>
-        <a href="#" class="nav-item" id="nav-analytics"><i class="fa-solid fa-chart-line"></i> Analytics</a>
-        <a href="#" class="nav-item" id="nav-settings"><i class="fa-solid fa-cog"></i> Settings</a>
-      </nav>
-      <div class="sidebar-footer">
-        <div class="admin-info">
-          <div class="admin-avatar"><i class="fa-solid fa-user-shield"></i></div>
-          <div class="admin-details">
-            <span class="admin-name" id="display-username">Admin</span>
-            <span class="admin-role">Super Admin</span>
+  <!-- Dashboard Section (Full-Width Top-Nav Enterprise Layout) -->
+  <section id="dashboard-section" class="dashboard dashboard-top-layout hidden">
+    <!-- Unified Top Navigation Bar -->
+    <header class="admin-topbar glass-panel">
+      <div class="topbar-row-primary">
+        <div class="topbar-brand">
+          <div class="logo-icon"><i class="fa-solid fa-glasses"></i></div>
+          <div>
+            <h2>Janta Optical</h2>
+            <span class="topbar-subtitle">Enterprise Portal</span>
           </div>
         </div>
-        <button id="logout-btn" class="btn-danger-outline"><i class="fa-solid fa-right-from-bracket"></i></button>
-      </div>
-    </aside>
 
-    <!-- Main Content -->
-    <main class="main-content">
-      <header class="top-nav glass-panel">
-        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle Menu">
-          <i class="fa-solid fa-bars"></i>
-        </button>
-        <div class="search-bar" id="top-search-bar">
-          <i class="fa-solid fa-search"></i>
-          <input type="text" id="search-product" placeholder="Search products...">
-        </div>
-        <div class="nav-actions">
-          <button class="icon-btn"><i class="fa-solid fa-bell"></i></button>
+        <nav class="topbar-nav sidebar-nav" aria-label="Admin Navigation">
+          <a href="#" class="nav-item hidden" id="nav-analytics"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
+          <a href="#" class="nav-item" id="nav-billing"><i class="fa-solid fa-cash-register"></i> <span>Billing / POS</span></a>
+          <a href="#" class="nav-item" id="nav-reports"><i class="fa-solid fa-receipt"></i> <span>Sales Reports</span></a>
+          <a href="#" class="nav-item active" id="nav-products"><i class="fa-solid fa-box-open"></i> <span>Inventory</span></a>
+          <a href="#" class="nav-item hidden" id="nav-staff"><i class="fa-solid fa-users-gear"></i> <span>Staff</span></a>
+          <a href="#" class="nav-item" id="nav-settings"><i class="fa-solid fa-cog"></i> <span>Security</span></a>
+        </nav>
+
+        <div class="topbar-actions">
           <button class="btn-primary" id="open-add-modal-btn">
             <i class="fa-solid fa-plus"></i> <span class="btn-label">New Product</span>
           </button>
+          <div class="topbar-user">
+            <div class="admin-details">
+              <span class="admin-name" id="display-username">Admin</span>
+              <span class="admin-role" id="display-role">SUPER ADMIN</span>
+            </div>
+            <button id="logout-btn" class="btn-danger-outline" title="Sign Out"><i class="fa-solid fa-right-from-bracket"></i></button>
+          </div>
         </div>
-      </header>
+      </div>
+    </header>
 
+    <!-- Full-Width Main Content -->
+    <main class="main-content main-content-full">
       <div class="content-wrapper">
         <!-- Products Section -->
         <div id="section-products" class="admin-section">
@@ -125,24 +121,68 @@
           </div>
         </div>
 
-        <!-- Analytics Section -->
+        <!-- Executive Analytics Section (Super Admin Only) -->
         <div id="section-analytics" class="admin-section hidden">
           <div class="section-title">
-            <h3>Dashboard Analytics</h3>
-            <p>Overview of your business performance.</p>
+            <h3>Executive Summary</h3>
+            <p>Live Today, MTD &amp; YTD sales performance, stock inventory, and low-stock alerts.</p>
           </div>
           <div class="stats-grid">
             <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-calendar-day"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Today's Sales</span>
+                <h2 id="stat-today-rev">₹0</h2>
+                <small id="stat-today-cnt" class="stat-sub">0 bills/orders</small>
+              </div>
+            </div>
+            <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-calendar-week"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">MTD Sales</span>
+                <h2 id="stat-mtd-rev">₹0</h2>
+                <small id="stat-mtd-cnt" class="stat-sub">0 this month</small>
+              </div>
+            </div>
+            <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-chart-line"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">YTD Sales</span>
+                <h2 id="stat-ytd-rev">₹0</h2>
+                <small id="stat-ytd-cnt" class="stat-sub">0 this year</small>
+              </div>
+            </div>
+            <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Stock Inventory</span>
+                <h2 id="stat-stock-units">0</h2>
+                <small id="stat-stock-skus" class="stat-sub">0 SKUs</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Low Stock Alert Panel -->
+          <div id="low-stock-panel" class="orders-table-container glass-panel hidden" style="margin-top: 1.5rem; padding: 1.25rem 1.5rem; border-color: rgba(245, 158, 11, 0.4);">
+            <div class="section-title" style="margin-bottom: 1rem; display:flex; align-items:center; gap:8px;">
+              <i class="fa-solid fa-triangle-exclamation" style="color:#fbbf24;"></i>
+              <h4 style="color:#fbbf24;">Low Stock Inventory Alerts (&le; 5 units)</h4>
+            </div>
+            <div id="low-stock-list" class="low-stock-grid"></div>
+          </div>
+
+          <div class="stats-grid" style="margin-top: 1.5rem;">
+            <div class="stat-card glass-panel">
               <div class="stat-icon"><i class="fa-solid fa-bag-shopping"></i></div>
               <div class="stat-info">
-                <span class="stat-label">Total Orders</span>
+                <span class="stat-label">Online Orders</span>
                 <h2 id="stat-orders">0</h2>
               </div>
             </div>
             <div class="stat-card glass-panel">
               <div class="stat-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
               <div class="stat-info">
-                <span class="stat-label">Total Revenue</span>
+                <span class="stat-label">Online Revenue</span>
                 <h2 id="stat-revenue">₹0</h2>
               </div>
             </div>
@@ -153,25 +193,223 @@
                 <h2 id="stat-products">0</h2>
               </div>
             </div>
+            <div class="stat-card glass-panel">
+              <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+              <div class="stat-info">
+                <span class="stat-label">Pending Online Orders</span>
+                <h2 id="stat-pending">0</h2>
+              </div>
+            </div>
           </div>
 
-          <div class="orders-table-container glass-panel" style="margin-top: 2rem; padding: 1.5rem;">
-            <div class="section-title" style="margin-bottom: 1.5rem;">
-              <h4>Recent Orders</h4>
+          <div class="orders-table-container glass-panel" style="margin-top: 1.5rem; padding: 1.5rem; overflow-x: auto;">
+            <div class="section-title" style="margin-bottom: 1.25rem;">
+              <h4>Recent Online Orders &amp; Prescriptions</h4>
             </div>
             <table class="admin-table" id="orders-table">
               <thead>
                 <tr>
-                  <th>Order ID</th>
+                  <th>Order #</th>
                   <th>Customer</th>
                   <th>Total</th>
+                  <th>Status</th>
                   <th>Date</th>
-                  <th>Items</th>
+                  <th>Items &amp; Rx</th>
+                  <th>Invoice</th>
                 </tr>
               </thead>
-              <tbody id="orders-list">
-                <!-- Orders injected via JS -->
-              </tbody>
+              <tbody id="orders-list"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- POS Billing Dashboard Section (Staff & Admin) -->
+        <div id="section-billing" class="admin-section hidden">
+          <div class="section-title">
+            <h3>POS Billing Terminal</h3>
+            <p>Create walk-in bills, apply lens packages, record eye power, and print GST invoices.</p>
+          </div>
+          <div class="pos-layout">
+            <div class="settings-card glass-panel">
+              <h4>1. Add Items to Bill</h4>
+              <div class="form-row" style="margin-top:1rem;">
+                <div class="input-group">
+                  <label for="pos-product">Select Frame from Inventory</label>
+                  <select id="pos-product"></select>
+                </div>
+                <div class="input-group">
+                  <label for="pos-lens">Lens Package</label>
+                  <select id="pos-lens">
+                    <option value="frame_only">Frame Only (+₹0)</option>
+                    <option value="single_vision">Single Vision Anti-Glare (+₹600)</option>
+                    <option value="blue_cut">Blue-Cut Computer (+₹1,100)</option>
+                    <option value="progressive">Progressive Multifocal (+₹2,400)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="input-group">
+                  <label for="pos-qty">Quantity</label>
+                  <input type="number" id="pos-qty" min="1" value="1">
+                </div>
+                <div class="input-group" style="display:flex;align-items:flex-end;">
+                  <button type="button" id="pos-add-item-btn" class="btn-primary" style="width:100%;">
+                    <i class="fa-solid fa-plus"></i> Add to Bill
+                  </button>
+                </div>
+              </div>
+
+              <h4 style="margin-top:1.5rem;">Bill Items</h4>
+              <div id="pos-items-list" class="pos-items-list">
+                <p style="color:#94a3b8;font-size:0.85rem;">No items added yet.</p>
+              </div>
+            </div>
+
+            <form id="pos-billing-form" class="settings-card glass-panel">
+              <h4>2. Customer &amp; Payment</h4>
+              <div class="form-row" style="margin-top:1rem;">
+                <div class="input-group">
+                  <label for="pos-cust-name">Customer Name *</label>
+                  <input type="text" id="pos-cust-name" placeholder="Customer Name" required minlength="2">
+                </div>
+                <div class="input-group">
+                  <label for="pos-cust-phone">Phone Number</label>
+                  <input type="tel" id="pos-cust-phone" placeholder="+91 98765 43210">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="input-group">
+                  <label for="pos-payment">Payment Method</label>
+                  <select id="pos-payment">
+                    <option value="cash">Cash</option>
+                    <option value="upi">UPI / QR</option>
+                    <option value="card">Card</option>
+                  </select>
+                </div>
+                <div class="input-group">
+                  <label for="pos-discount">Discount (₹)</label>
+                  <input type="number" id="pos-discount" min="0" value="0">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="input-group">
+                  <label for="pos-od">Right Eye (OD) SPH/CYL</label>
+                  <input type="text" id="pos-od" placeholder="e.g. -1.25 / -0.50">
+                </div>
+                <div class="input-group">
+                  <label for="pos-os">Left Eye (OS) SPH/CYL</label>
+                  <input type="text" id="pos-os" placeholder="e.g. -1.50 / -0.25">
+                </div>
+              </div>
+              <div class="input-group">
+                <label for="pos-notes">Notes (Optional)</label>
+                <input type="text" id="pos-notes" placeholder="Delivery date / fitting notes">
+              </div>
+
+              <div class="pos-total-box">
+                <div><span>Subtotal</span><strong id="pos-subtotal">₹0</strong></div>
+                <div><span>Discount</span><strong id="pos-discount-display">₹0</strong></div>
+                <div class="pos-grand"><span>Payable Total (Incl. GST)</span><strong id="pos-total">₹0</strong></div>
+              </div>
+
+              <button type="submit" class="btn-primary" style="width:100%;margin-top:1rem;">
+                <i class="fa-solid fa-print"></i> Generate Bill &amp; Invoice
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Daily Sales Reports Section (Staff & Admin — filter up to 30 days, edit & delete) -->
+        <div id="section-reports" class="admin-section hidden">
+          <div class="staff-page-header">
+            <div class="section-title" style="margin-bottom:0;">
+              <h3>Daily Sales Reports</h3>
+              <p>Filter store bills up to 30 days, inspect details, edit, delete, or print GST invoices.</p>
+            </div>
+            <div class="reports-toolbar">
+              <select id="report-days-filter" class="report-select">
+                <option value="1">Today (24h)</option>
+                <option value="7">Last 7 Days</option>
+                <option value="14">Last 14 Days</option>
+                <option value="30" selected>Last 30 Days</option>
+              </select>
+              <input type="search" id="report-search-input" class="report-search" placeholder="Search invoice #, name, phone...">
+            </div>
+          </div>
+
+          <div class="staff-kpi-strip">
+            <div class="staff-kpi-chip glass-panel">
+              <span>Bills Count</span>
+              <strong id="report-count">0</strong>
+            </div>
+            <div class="staff-kpi-chip glass-panel">
+              <span>Total Sales</span>
+              <strong id="report-revenue" style="color:#34d399;">₹0</strong>
+            </div>
+            <div class="staff-kpi-chip glass-panel">
+              <span>Window</span>
+              <strong id="report-window" style="color:#a5b4fc;">30d</strong>
+            </div>
+          </div>
+
+          <div class="orders-table-container glass-panel" style="padding: 1.5rem; overflow-x: auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Invoice #</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Payment</th>
+                  <th>Total</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="reports-list"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Staff Management Section (Super Admin Only — Full-Width Directory + Modal) -->
+        <div id="section-staff" class="admin-section hidden">
+          <div class="staff-page-header">
+            <div class="section-title" style="margin-bottom: 0;">
+              <h3>Staff Management</h3>
+              <p>Manage optometrists, store managers, and administrators.</p>
+            </div>
+            <button type="button" class="btn-primary" id="open-staff-modal-btn">
+              <i class="fa-solid fa-user-plus"></i> <span>Add Staff Member</span>
+            </button>
+          </div>
+
+          <div class="staff-kpi-strip">
+            <div class="staff-kpi-chip glass-panel">
+              <span>Total Team</span>
+              <strong id="staff-kpi-total">0</strong>
+            </div>
+            <div class="staff-kpi-chip glass-panel">
+              <span>Active</span>
+              <strong id="staff-kpi-active" style="color:#34d399;">0</strong>
+            </div>
+            <div class="staff-kpi-chip glass-panel">
+              <span>Super Admins</span>
+              <strong id="staff-kpi-admins" style="color:#a5b4fc;">0</strong>
+            </div>
+          </div>
+
+          <div class="orders-table-container glass-panel" style="padding: 1.5rem; overflow-x: auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Staff Member</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Last Login</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="staff-list"></tbody>
             </table>
           </div>
         </div>
@@ -228,6 +466,47 @@
           </div>
         </div>
 
+        <div class="form-row">
+          <div class="input-group">
+            <label for="product-category">Category</label>
+            <select id="product-category">
+              <option value="eyeglasses">Eyeglasses</option>
+              <option value="sunglasses">Sunglasses</option>
+              <option value="blue-cut">Blue-Cut</option>
+              <option value="kids">Kids</option>
+              <option value="accessories">Accessories</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="product-shape">Frame Shape</label>
+            <select id="product-shape">
+              <option value="wayfarer">Wayfarer</option>
+              <option value="aviator">Aviator</option>
+              <option value="cat-eye">Cat-Eye</option>
+              <option value="round">Round</option>
+              <option value="square">Square</option>
+              <option value="rimless">Rimless</option>
+              <option value="geometric">Geometric</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="input-group">
+            <label for="product-gender">Gender</label>
+            <select id="product-gender">
+              <option value="unisex">Unisex</option>
+              <option value="men">Men</option>
+              <option value="women">Women</option>
+              <option value="kids">Kids</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="product-stock">Stock Quantity</label>
+            <input type="number" id="product-stock" min="0" value="25">
+          </div>
+        </div>
+
         <div class="input-group">
           <label for="product-desc">Description</label>
           <textarea id="product-desc" rows="3" placeholder="Enter a rich description..."></textarea>
@@ -254,24 +533,94 @@
     </div>
   </div>
 
-  <!-- Sidebar Overlay (mobile) -->
-  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  <!-- Add Staff Modal -->
+  <div id="staff-modal" class="modal-overlay hidden">
+    <div class="modal-content glass-panel" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3>Register Staff Member</h3>
+        <button type="button" class="icon-btn close-staff-modal"><i class="fa-solid fa-times"></i></button>
+      </div>
+      <form id="create-staff-form">
+        <div class="input-group">
+          <label for="staff-fullname">Full Name</label>
+          <input type="text" id="staff-fullname" placeholder="e.g. Dr. Rohan Pradhan" required minlength="2">
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label for="staff-username">Username</label>
+            <input type="text" id="staff-username" placeholder="e.g. rohan.optom" required minlength="3">
+          </div>
+          <div class="input-group">
+            <label for="staff-role">Role</label>
+            <select id="staff-role">
+              <option value="manager">Store Manager</option>
+              <option value="optometrist">Optometrist</option>
+              <option value="super_admin">Super Admin</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="staff-email">Email (Optional)</label>
+          <input type="email" id="staff-email" placeholder="staff@jantaoptical.com">
+        </div>
+        <div class="input-group">
+          <label for="staff-password">Temporary Password (min 8 chars)</label>
+          <input type="password" id="staff-password" placeholder="••••••••" required minlength="8">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary close-staff-modal">Cancel</button>
+          <button type="submit" class="btn-primary">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Sale Modal -->
+  <div id="edit-sale-modal" class="modal-overlay hidden">
+    <div class="modal-content glass-panel" style="max-width: 460px;">
+      <div class="modal-header">
+        <h3>Edit Sales Record</h3>
+        <button type="button" class="icon-btn close-sale-modal"><i class="fa-solid fa-times"></i></button>
+      </div>
+      <form id="edit-sale-form">
+        <input type="hidden" id="edit-sale-id">
+        <div class="input-group">
+          <label for="edit-sale-name">Customer Name</label>
+          <input type="text" id="edit-sale-name" required minlength="2">
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label for="edit-sale-phone">Phone</label>
+            <input type="tel" id="edit-sale-phone">
+          </div>
+          <div class="input-group">
+            <label for="edit-sale-payment">Payment Method</label>
+            <select id="edit-sale-payment">
+              <option value="cash">Cash</option>
+              <option value="upi">UPI</option>
+              <option value="card">Card</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="input-group">
+            <label for="edit-sale-discount">Discount (₹)</label>
+            <input type="number" id="edit-sale-discount" min="0">
+          </div>
+          <div class="input-group">
+            <label for="edit-sale-notes">Notes</label>
+            <input type="text" id="edit-sale-notes">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary close-sale-modal">Cancel</button>
+          <button type="submit" class="btn-primary">Update Sale</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <script src="js/admin.js"></script>
-  <script>
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    const sidebar = document.querySelector('.sidebar');
-    const sidebarOverlay = document.getElementById('sidebar-overlay');
-
-    function openSidebar() { sidebar.classList.add('open'); sidebarOverlay.classList.add('open'); }
-    function closeSidebar() { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('open'); }
-
-    if (sidebarToggle) sidebarToggle.addEventListener('click', openSidebar);
-    if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
-    document.querySelectorAll('.nav-item').forEach(item => {
-      item.addEventListener('click', () => { if (window.innerWidth <= 768) closeSidebar(); });
-    });
-  </script>
 </body>
 
 </html>
