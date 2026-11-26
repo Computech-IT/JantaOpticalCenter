@@ -37,6 +37,7 @@
     "multer": "^2.1.0",
     "mysql2": "^3.12.0",
     "nodemailer": "^7.0.13",
+    "sqlite3": "^5.1.7",
     "uuid": "^13.0.0",
     "zod": "^4.6.7"
   },
@@ -44,7 +45,6 @@
     "autoprefixer": "^10.4.23",
     "nodemon": "^3.1.9",
     "postcss": "^8.5.6",
-    "sqlite3": "^5.1.7",
     "tailwindcss": "^3.4.19"
   }
 }

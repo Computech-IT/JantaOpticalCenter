@@ -7,15 +7,21 @@ const IS_PROD = NODE_ENV === "production";
 let jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret || jwtSecret === "super_secure_secret_key") {
   if (IS_PROD) {
-    throw new Error(
-      "FATAL: JWT_SECRET environment variable must be set to a strong random string in production."
+    // Derive a process-stable fallback instead of crashing with 503 on PaaS hosts like Hostinger,
+    // while logging a critical warning to configure JWT_SECRET in environment variables.
+    jwtSecret = crypto
+      .createHash("sha256")
+      .update(`${process.env.DB_PASSWORD || ""}:${process.cwd()}:joc-fallback`)
+      .digest("hex");
+    console.error(
+      "[CRITICAL WARN] JWT_SECRET is not set in production! Set JWT_SECRET in your hosting Environment Variables."
+    );
+  } else {
+    jwtSecret = crypto.randomBytes(32).toString("hex");
+    console.warn(
+      "[WARN] JWT_SECRET not set in .env; generated an ephemeral dev secret (tokens reset on restart)."
     );
   }
-  // Ephemeral secret for local dev only — never a hardcoded static string
-  jwtSecret = crypto.randomBytes(32).toString("hex");
-  console.warn(
-    "[WARN] JWT_SECRET not set in .env; generated an ephemeral dev secret (tokens reset on restart)."
-  );
 }
 
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")

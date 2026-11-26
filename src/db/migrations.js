@@ -18,7 +18,33 @@ async function ensureColumn(table, column, definition) {
 }
 
 async function runMigrations() {
-  if (!db.isMysql) {
+  if (db.isMysql) {
+    await db.execute(`CREATE TABLE IF NOT EXISTS products (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      price INT NOT NULL,
+      description TEXT,
+      img LONGTEXT
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+    await db.execute(`CREATE TABLE IF NOT EXISTS orders (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      customer_name VARCHAR(255),
+      phone VARCHAR(20),
+      address TEXT,
+      notes TEXT,
+      items_json LONGTEXT,
+      total INT DEFAULT 0,
+      created_at TEXT
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+
+    await db.execute(`CREATE TABLE IF NOT EXISTS admins (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      username VARCHAR(50) UNIQUE,
+      password_hash VARCHAR(255),
+      created_at TEXT
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
+  } else {
     await db.execute(`CREATE TABLE IF NOT EXISTS products (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
